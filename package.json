@@ -1,0 +1,20 @@
+{
+  "name": "@jesture/actions",
+  "version": "0.0.0",
+  "description": "",
+  "author": "Carson Storm",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+	"build": "napi build --platform --release",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "napi": {
+	"name": "actions",
+	"js": false,
+	"no-dts-header": true
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^2.12.0"
+  }
+}
