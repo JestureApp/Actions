@@ -23,5 +23,6 @@
   },
   "optionalDependencies": {
     "@jesture/keystrokes-linux-x64-gnu": "^0.0.0"
-  }
+  },
+  "gitHead": "776331d57d1c086379ff9135444f960e2a43571e"
 }
