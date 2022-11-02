@@ -7,8 +7,8 @@
   "license": "MIT",
   "workspaces": [
     "packages/actions",
-    "packages/keystrokes",
-    "packages/keystrokes/linux-x64-gnu"
+    "packages/display-actions",
+    "packages/display-actions/linux-x64-gnu"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

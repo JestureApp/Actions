@@ -1,5 +1,5 @@
 {
-  "name": "@jesture/keystrokes-linux-x64-gnu",
+  "name": "@jesture/display-actions-linux-x64-gnu",
   "version": "0.0.0",
   "license": "MIT",
   "publishConfig": {
@@ -11,9 +11,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "keystrokes.linux-x64-gnu.node",
+  "main": "display-actions.linux-x64-gnu.node",
   "files": [
-    "keystrokes.linux-x64-gnu.node"
+    "display-actions.linux-x64-gnu.node"
   ],
   "engines": {
     "node": ">=10"
