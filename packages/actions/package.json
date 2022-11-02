@@ -5,7 +5,7 @@
   "author": "Carson Storm <carson.storm@outlook.com>",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://capstone-cs.eng.utah.edu/api/v4/projects/900/packages/npm/"
+    "@jesture:registry": "https://capstone-cs.eng.utah.edu/api/v4/projects/900/packages/npm/"
   },
   "main": "index.js",
   "scripts": {
@@ -14,5 +14,5 @@
   "dependencies": {
     "@jesture/keystrokes": "^0.0.0"
   },
-  "gitHead": "776331d57d1c086379ff9135444f960e2a43571e"
+  "gitHead": "ae0415792daa3aa7e3864745037faac65211f0f2"
 }
