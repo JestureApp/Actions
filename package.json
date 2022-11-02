@@ -6,15 +6,19 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-	"build": "napi build --platform --release",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "napi build --release",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build"
   },
   "napi": {
-	"name": "actions",
-	"js": false,
-	"no-dts-header": true
+    "name": "actions",
+    "js": false,
+    "no-dts-header": true
   },
   "devDependencies": {
     "@napi-rs/cli": "^2.12.0"
+  },
+  "publishConfig": {
+    "registry": "https://capstone-cs.eng.utah.edu/api/v4/projects/900/packages/npm/"
   }
 }
