@@ -1,5 +1,6 @@
 const {platform, arch} = process;
 
+// load correct binary
 if (! platform in ['darwin', 'win32', 'linux']) {
 	throw new Error('Unsupported platform : ${platform}');
 }
