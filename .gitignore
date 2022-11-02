@@ -1,8 +1,6 @@
 .env
 
 node_modules
-package-lock.json
-
 
 target
 Cargo.lock

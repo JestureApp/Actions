@@ -1,0 +1,32 @@
+{
+  "name": "@jesture/keystrokes-linux-x64-gnu",
+  "version": "0.0.0",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://capstone-cs.eng.utah.edu/api/v4/projects/900/packages/npm/"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "keystrokes.linux-x64-gnu.node",
+  "files": [
+    "keystrokes.linux-x64-gnu.node"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "libc": [
+    "glibc"
+  ],
+  "scripts": {
+    "build": "napi build --config ../package.json --cargo-cwd ../  --js false --dts ../index.d.ts --platform --release",
+    "build:dev": "napi build --config ../package.json --cargo-cwd ../  --js false --dts ../index.d.ts --platform",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^2.12.0"
+  }
+}
