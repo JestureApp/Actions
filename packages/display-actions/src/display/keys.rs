@@ -1,30 +1,32 @@
 // TODO: docs
-pub enum Key {
-    // List of keys found from https://www.autohotkey.com/docs/KeyList.htm
-
-    // General
+pub enum ModKey {
+    // TODO: add left and right variants?
+    Shift,
+    Ctrl,
+    Alt,
     CapsLock,
-    Space,
+}
+
+// TODO: docs
+pub enum NormalKey {
+    // System Keys
+    PrtSc,
+    Escape,
+
+    // Editing or Navigational Keys
     Tab,
     Enter,
-    Escape,
     Backspace,
-
-    // Cursor Control
-    ScrollLock,
-    Delete,
     Insert,
+    Delete,
     Home,
     End,
     PageUp,
     PageDown,
     UpArrow,
-    DownArrow,
-    LeftArrow,
     RightArrow,
-
-    // Number Pad
-    // TODO
+    LeftArrow,
+    DownArrow,
 
     // Function Keys
     F1,
@@ -39,41 +41,25 @@ pub enum Key {
     F10,
     F11,
     F12,
-    F13,
-    F14,
-    F15,
-    F16,
-    F17,
-    F18,
-    F19,
-    F20,
-    F21,
-    F22,
-    F23,
-    F24,
-
-    // Modifier Keys
-    // TODO: add left and right variants?
-    Alt,
-    Shift,
-    Control,
-    Meta,
 
     // Multimedia Keys
     // TODO: Skipped some keys
-    VolumeMute,
-    VolumeUp,
-    VolumeDown,
-    MediaNext,
-    MediaPrevious,
-    MediaStop,
-    MediaPausePlay,
+    // VolumeMute,
+    // VolumeUp,
+    // VolumeDown,
+    // MediaNext,
+    // MediaPrevious,
+    // MediaStop,
+    // MediaPausePlay,
 
-    // Other
-    // TODO
-
-    // Characters
-    Layout(char),
+    // Character Keys
+    Char(char),
 }
 
-pub type KeyStroke = [Key];
+// TODO: docs
+pub enum Key {
+    Mod(ModKey),
+    Normal(NormalKey),
+}
+
+pub struct KeyStroke {}

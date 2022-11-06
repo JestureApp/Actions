@@ -1,2 +1,1 @@
-// TODO: probably good to make this more structured at some point
-pub type Error = String;
+pub type Error = Box<dyn std::error::Error>;

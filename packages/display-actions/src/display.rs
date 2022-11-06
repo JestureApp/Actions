@@ -2,7 +2,7 @@ mod error;
 pub use error::Error;
 
 mod keys;
-pub use keys::{Key, KeyStroke};
+pub use keys::{Key, KeyStroke, ModKey, NormalKey};
 
 #[cfg(target_os = "linux")]
 mod linux;

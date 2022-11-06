@@ -1,7 +1,18 @@
 # Actions
 
 ## Prerequisites
-* [xdotool](https://github.com/jordansissel/xdotool)
+### Linux
+* [libx11](https://x.org/releases/current/doc/libX11/libX11/libX11.html)
+  
+  On ubuntu:
+  ```bash
+  apt-get install libx11-dev
+  ```
+
+  On Arch:
+  ```
+  pacman -S libx11
+  ```
 
 ## Getting started
 
