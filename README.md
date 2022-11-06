@@ -13,5 +13,6 @@ npm i @jesture/actions
 ```
 
 ## TODO
+- [ ] How do I handle exceptions across FFI boundary
 - [ ] Implement keystroke actions
 - [ ] Setup CI/CD
