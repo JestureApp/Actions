@@ -4,3 +4,17 @@ cc_import(
     hdrs = glob(["include/xcb/*.h"]),
     visibility = ["//visibility:public"],
 )
+
+cc_import(
+    name = "xtest",
+    shared_library = "lib/libxcb-xtest.so",
+    hdrs = glob(["include/xcb/xtest.h"]),
+    visibility = ["//visibility:public"],
+)
+
+cc_import(
+    name = "keysyms",
+    shared_library = "lib/libxcb-keysyms.so",
+    hdrs = glob(["include/xcb/xcb_keysyms.h"]),
+    visibility = ["//visibility:public"],
+)
