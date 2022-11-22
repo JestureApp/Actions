@@ -8,6 +8,11 @@ deps_remote_repositories = {
             "https://github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
         ],
         "sha256":"74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506",
+    },
+
+    "com_google_absl": {
+        "url": "https://github.com/abseil/abseil-cpp/archive/refs/tags/20220623.1.tar.gz",
+        "strip_prefix": "abseil-cpp-20220623.1",
     }
 }
 
@@ -18,3 +23,10 @@ def actions_repositiories():
             name = name,
             **args
         )
+
+    maybe(
+        native.new_local_repository,
+        name = "xcb",
+        path = "/usr",
+        build_file = "//third_party:xcb.BUILD",
+    )

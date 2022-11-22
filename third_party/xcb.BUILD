@@ -1,4 +1,6 @@
 cc_import(
-    name = "libxcb",
+    name = "xcb",
     shared_library = "lib/libxcb.so",
+    hdrs = glob(["include/xcb/*.h"]),
+    visibility = ["//visibility:public"],
 )
