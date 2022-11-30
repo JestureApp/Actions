@@ -9,27 +9,27 @@
 
 namespace actions {
 class Connection : public ConnectionBase {
- public:
-  /**
-   * @brief Open a connection to the X server
-   * @return A valid connection to the server or an error status
-   */
-  static absl::StatusOr<std::unique_ptr<Connection>> Open();
+   public:
+    /**
+     * @brief Open a connection to the X server
+     * @return A valid connection to the server or an error status
+     */
+    static absl::StatusOr<std::unique_ptr<Connection>> Open();
 
-  absl::Status SendKeystroke(Keystrokes &keystroke) override;
+    absl::Status SendKeystroke(Keystrokes &keystroke) override;
 
-  ~Connection();
+    ~Connection();
 
- private:
-  absl::Status Flush();
+   private:
+    absl::Status Flush();
 
-  Connection(xcb_connection_t *conn, xcb_screen_t *screen,
-             xcb_key_symbols_t *symbols);
+    Connection(xcb_connection_t *conn, xcb_screen_t *screen,
+               xcb_key_symbols_t *symbols);
 
-  xcb_connection_t *conn;
-  xcb_screen_t *screen;
+    xcb_connection_t *conn;
+    xcb_screen_t *screen;
 
-  xcb_key_symbols_t *key_symbols;
+    xcb_key_symbols_t *key_symbols;
 };
 }  // namespace actions
 

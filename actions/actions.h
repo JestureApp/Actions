@@ -13,43 +13,43 @@ using Action = absl::variant<Keystrokes>;
 
 template <class ActionId>
 class Actions {
- public:
-  static absl::StatusOr<std::shared_ptr<Actions<ActionId>>> Create() {
-    absl::StatusOr<std::unique_ptr<Connection>> conn = Connection::Open();
+   public:
+    static absl::StatusOr<std::shared_ptr<Actions<ActionId>>> Create() {
+        absl::StatusOr<std::unique_ptr<Connection>> conn = Connection::Open();
 
-    if (!conn.ok()) {
-      return conn.status();
+        if (!conn.ok()) {
+            return conn.status();
+        }
+
+        Actions* actions = new Actions();
+        actions->conn = std::move(conn).value();
+
+        return std::shared_ptr<Actions>(actions);
+    };
+
+    ~Actions(){};
+
+    void Add(ActionId id, Action action) { actions[id] = action; }
+
+    absl::Status Perform(ActionId id) {
+        if (actions.find(id) == actions.end()) {
+            return absl::NotFoundError("Action not found");
+        }
+
+        Action& action = actions[id];
+
+        if (absl::holds_alternative<Keystrokes>(action)) {
+            return conn->SendKeystroke(absl::get<Keystrokes>(action));
+        }
+
+        return absl::UnimplementedError("Not implemented");
     }
 
-    Actions* actions = new Actions();
-    actions->conn = std::move(conn).value();
+   private:
+    Actions(){};
 
-    return std::shared_ptr<Actions>(actions);
-  };
-
-  ~Actions(){};
-
-  void Add(ActionId id, Action action) { actions[id] = action; }
-
-  absl::Status Perform(ActionId id) {
-    if (actions.find(id) == actions.end()) {
-      return absl::NotFoundError("Action not found");
-    }
-
-    Action& action = actions[id];
-
-    if (absl::holds_alternative<Keystrokes>(action)) {
-      return conn->SendKeystroke(absl::get<Keystrokes>(action));
-    }
-
-    return absl::UnimplementedError("Not implemented");
-  }
-
- private:
-  Actions(){};
-
-  std::unique_ptr<Connection> conn;
-  std::map<ActionId, Action> actions;
+    std::unique_ptr<Connection> conn;
+    std::map<ActionId, Action> actions;
 };
 
 }  // namespace actions

@@ -7,8 +7,8 @@
 
 namespace actions {
 struct Keystroke {
-  char key;
-  int modifiers;
+    char key;
+    int modifiers;
 };
 
 using Keystrokes = std::vector<Keystroke>;

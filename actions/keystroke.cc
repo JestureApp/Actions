@@ -4,6 +4,6 @@
 
 namespace actions {
 absl::StatusOr<Keystrokes> ParseKeystrokes(const char* keystrokes) {
-  return absl::OkStatus();
+    return absl::OkStatus();
 }
 }  // namespace actions
