@@ -1,6 +1,7 @@
 
 #include "xcb/xcb.h"
 #include "xcb/xtest.h"
+#include "xcb/xcbext.h"
 #include "xcb/xcb_keysyms.h"
 #include <unistd.h>
 #include <string.h>
@@ -16,6 +17,8 @@ void send_str(xcb_connection_t* connection, xcb_key_symbols_t* syms, const char*
 
         xcb_test_fake_input(connection, XCB_KEY_PRESS, code, 0, none, 0, 0, 0);
         xcb_test_fake_input(connection, XCB_KEY_RELEASE, code, 0, none, 0, 0, 0);
+        // xcb_wait_for_reply(connection, xcb_test_fake_input(connection, XCB_KEY_PRESS, code, 0, none, 0, 0, 0).sequence, NULL);
+        // xcb_wait_for_reply(connection, xcb_test_fake_input(connection, XCB_KEY_RELEASE, code, 0, none, 0, 0, 0).sequence, NULL);
 
         str++;
     }
