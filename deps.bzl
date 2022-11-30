@@ -31,5 +31,6 @@ def actions_repositiories():
         native.new_local_repository,
         name = "xcb",
         path = "/usr",
-        build_file = "//third_party:xcb.BUILD",
+        # CHECKME: Might need this path to be scoped differently for use outside of repository
+        build_file = "@//third_party:xcb.BUILD",
     )
