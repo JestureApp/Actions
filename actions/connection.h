@@ -7,4 +7,4 @@
 #include "actions/linux/connection.h"
 #endif
 
-#endif // __H_CONNECTION__
+#endif  // __H_CONNECTION__

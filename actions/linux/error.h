@@ -3,9 +3,8 @@
 
 #include "absl/status/status.h"
 
-namespace actions 
-{
-    absl::Status XcbErrorToStatus(int error);
+namespace actions {
+absl::Status XcbErrorToStatus(int error);
 }
 
-#endif // __H_LINUX_ERROR__
+#endif  // __H_LINUX_ERROR__

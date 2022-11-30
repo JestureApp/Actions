@@ -1,3 +1,5 @@
+"""Dependencies for actions package."""
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
@@ -13,6 +15,7 @@ deps_remote_repositories = {
     "com_google_absl": {
         "url": "https://github.com/abseil/abseil-cpp/archive/refs/tags/20220623.1.tar.gz",
         "strip_prefix": "abseil-cpp-20220623.1",
+        "sha256": "91ac87d30cc6d79f9ab974c51874a704de9c2647c40f6932597329a282217ba8",
     }
 }
 
