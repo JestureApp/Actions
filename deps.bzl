@@ -16,7 +16,12 @@ deps_remote_repositories = {
         "url": "https://github.com/abseil/abseil-cpp/archive/refs/tags/20220623.1.tar.gz",
         "strip_prefix": "abseil-cpp-20220623.1",
         "sha256": "91ac87d30cc6d79f9ab974c51874a704de9c2647c40f6932597329a282217ba8",
-    }
+    },
+
+    "com_google_googletest": {
+        "url": "https://github.com/google/googletest/archive/refs/tags/release-1.12.1.tar.gz",
+        "strip_prefix": "googletest-release-1.12.1",
+    },
 }
 
 def actions_repositiories():

@@ -24,3 +24,12 @@ cc_library(
         "@com_google_absl//absl/status",
     ]
 )
+
+cc_test(
+    name = "connection_test",
+    srcs = ["connection_test.cc"],
+    deps = [
+        ":connection",
+        "@com_google_googletest//:gtest_main",
+    ]
+)
