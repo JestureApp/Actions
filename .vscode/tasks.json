@@ -33,12 +33,14 @@
             "problemMatcher": [],
         },
         {
-            "label": "Test All",
+            "label": "Small Unit Tests",
             "type": "shell",
             "command": "bazel",
             "args": [
                 "test",
                 "--test_output=all",
+                "--test_tag_filters=unit",
+                "--test_size_filters=small",
                 "//..."
             ],
             "group": {
