@@ -1,17 +1,17 @@
-variables:
-  BAZEL_DIGEST_VERSION: "f670e9aec235aa23a5f068566352c5850a67eb93de8d7a2350240c68fcec3b25" # 3.4.1
-
-build:
-  image:
-    name: gcr.io/cloud-marketplace-containers/google/bazel@sha256:$BAZEL_DIGEST_VERSION
-    entrypoint: [""]
+build-job:
   stage: build
   script:
-    - bazel --output_base output build //...
-  artifacts:
-    paths:
-      - bazel-bin/main/hello-world
-  cache:
-    key: $BAZEL_DIGEST_VERSION
-    paths:
-      - output
+    - echo "Hello, $GITLAB_USER_LOGIN!"
+
+test-job1:
+  stage: test
+  script:
+    - echo "This job tests something"
+
+test-job2:
+  stage: test
+  script:
+    - echo "This job tests something, but takes more time than test-job1."
+    - echo "After the echo commands complete, it runs the sleep command for 20 seconds"
+    - echo "which simulates a test that runs 20 seconds longer than test-job1"
+    - sleep 20
