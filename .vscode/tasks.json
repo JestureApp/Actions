@@ -32,5 +32,23 @@
             },
             "problemMatcher": [],
         },
+        {
+            "label": "Test All",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "test",
+                "--test_output=all",
+                "//..."
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+        }
     ]
 }

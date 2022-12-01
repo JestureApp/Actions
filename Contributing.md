@@ -39,4 +39,5 @@ code base easier.
 
 ### Tasks
 * Build All
+* Test All
 * Refresh compile_commands.json
