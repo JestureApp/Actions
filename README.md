@@ -14,7 +14,5 @@
   pacman -S libx11
   ```
 
-## TODO
-- [ ] How do I handle exceptions across FFI boundary
-- [ ] Implement keystroke actions
-- [ ] Setup CI/CD
+# Contributing
+See [Contributing](Contributing) for instruction on contributing
