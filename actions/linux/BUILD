@@ -8,11 +8,11 @@ cc_library(
         ":error",
         "//actions:connection_base",
         "//actions:keystroke",
+        "@com_google_absl//absl/status:statusor",
         "@xcb",
         "@xcb//:keysyms",
         "@xcb//:xtest",
-        "@com_google_absl//absl/status:statusor",
-    ]
+    ],
 )
 
 cc_library(
@@ -20,7 +20,18 @@ cc_library(
     srcs = ["error.cc"],
     hdrs = ["error.h"],
     deps = [
-        "@xcb",
         "@com_google_absl//absl/status",
-    ]
+        "@xcb",
+    ],
+)
+
+cc_test(
+    name = "connection_test",
+    size = "small",
+    srcs = ["connection_test.cc"],
+    tags = ["unit"],
+    deps = [
+        ":connection",
+        "@com_google_googletest//:gtest_main",
+    ],
 )

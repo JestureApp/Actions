@@ -15,4 +15,4 @@
   ```
 
 # Contributing
-See [Contributing](Contributing) for instruction on contributing
+See [Contributing](Contributing.md) for instruction on contributing
