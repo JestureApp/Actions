@@ -1,0 +1,17 @@
+variables:
+  BAZEL_DIGEST_VERSION: "f670e9aec235aa23a5f068566352c5850a67eb93de8d7a2350240c68fcec3b25" # 3.4.1
+
+build:
+  image:
+    name: gcr.io/cloud-marketplace-containers/google/bazel@sha256:$BAZEL_DIGEST_VERSION
+    entrypoint: [""]
+  stage: build
+  script:
+    - bazel --output_base output build //...
+  artifacts:
+    paths:
+      - bazel-bin/main/hello-world
+  cache:
+    key: $BAZEL_DIGEST_VERSION
+    paths:
+      - output
