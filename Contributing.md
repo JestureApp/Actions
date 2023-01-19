@@ -41,3 +41,26 @@ code base easier.
 * Build All
 * Test All
 * Refresh compile_commands.json
+
+# Design
+```mermaid
+flowchart LR
+    api[Actions API]
+    ds[Display Server]
+
+    subgraph dispatch [Actions Dispatcher]
+        direction TB
+
+        el[Event Loop]
+        aq[Action Queue]
+
+        el --push/pop action--> aq
+    end
+
+    api --push action--> el
+    api --reg handler--> el
+    el --perform action--> ds
+    ds --error--> el
+```
+
+The actions API consists of two components, the "Action Dispatcher" which is responsible 
