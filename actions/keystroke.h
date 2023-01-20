@@ -2,18 +2,13 @@
 #define __H_KEYSTROKE__
 
 #include <vector>
-
-#include "absl/status/statusor.h"
-
 namespace actions {
-struct Keystroke {
-    char key;
-    int modifiers;
-};
 
-using Keystrokes = std::vector<Keystroke>;
+typedef struct {
+} Keystroke;
 
-absl::StatusOr<Keystrokes> ParseKeystrokes(const char* keystrokes);
+typedef std::vector<Keystroke> Keystrokes;
+
 }  // namespace actions
 
 #endif  // __H_KEYSTROKE__
