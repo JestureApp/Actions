@@ -9,7 +9,15 @@ cc_library(
         "//actions:keystroke",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/status:statusor",
+        "@xcb",
     ],
+)
+
+cc_library(
+    name = "xcb_connection",
+    srcs = ["xcb_connection.cc"],
+    hdrs = ["xcb_connection.h"],
+    deps = ["@xcb"],
 )
 
 cc_test(
