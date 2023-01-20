@@ -5,6 +5,7 @@ cc_library(
     srcs = ["dispatcher.cc"],
     hdrs = ["dispatcher.h"],
     deps = [
+        ":xcb_connection",
         "//actions:dispatcher_base",
         "//actions:keystroke",
         "@com_google_absl//absl/status",
