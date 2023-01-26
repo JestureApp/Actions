@@ -3,9 +3,12 @@
 #include <absl/status/internal/statusor_internal.h>
 #include <absl/status/status.h>
 #include <xcb/xcb.h>
+#include <xcb/xtest.h>
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
+#include "actions/linux/xcb_promise.h"
+#include "actions/promise.h"
 
 namespace actions {
 XcbConnection::XcbConnection(xcb_connection_t* conn) : conn(conn) {}
@@ -34,6 +37,11 @@ absl::StatusOr<XcbConnection> XcbConnection::Open() {
         return absl::UnavailableError("Could not connected to X server");
 
     return XcbConnection(conn);
+}
+
+XcbPromise XcbConnection::SendKeystroke(Keystroke& keystroke) noexcept {
+    return XcbPromise(conn, xcb_test_fake_input_checked(conn, XCB_KEY_PRESS, 0,
+                                                        0, 0, 0, 0, 0));
 }
 
 }  // namespace actions
