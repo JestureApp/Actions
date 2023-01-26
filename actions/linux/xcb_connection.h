@@ -7,11 +7,21 @@
 #include "absl/status/statusor.h"
 
 namespace actions {
+/**
+ * A connection to a X server, this object manages the lifecycle of the
+ * connection and acts as a middle man to the xcb api.
+ */
 class XcbConnection {
    public:
+    /**
+     * Opens a connection to the default X server.
+     *
+     * @return A `absl::Status` in the case of a failure or an `XcbConnection`
+     * in the case of a success.
+     */
     static absl::StatusOr<XcbConnection> Open();
 
-    ~XcbConnection();
+    virtual ~XcbConnection();
 
     XcbConnection(XcbConnection& other) = delete;
     XcbConnection& operator=(XcbConnection& other) = delete;
@@ -19,9 +29,11 @@ class XcbConnection {
     XcbConnection(XcbConnection&& other) noexcept;
     XcbConnection& operator=(XcbConnection&& other) noexcept;
 
-   private:
+   protected:
+    /// Not apart of public interface. DO NOT USE outside of testing.
     XcbConnection(xcb_connection_t* conn);
 
+   private:
     xcb_connection_t* conn;
 };
 }  // namespace actions

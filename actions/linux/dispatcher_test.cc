@@ -3,19 +3,29 @@
 #include <gtest/gtest.h>
 
 #include <memory>
+#include <vector>
 
 #include "absl/status/status.h"
+#include "actions/linux/xcb_connection.h"
+#include "gmock/gmock.h"
 
 using Dispatcher = actions::LinuxDispatcher;
 
-// class LinuxDispatcherTest : public ::testing::Test {
-//    protected:
-//     void SetUp() override { dispatcher = Dispatcher::Create(); }
+class MockConnection : public actions::XcbConnection {
+   public:
+    MockConnection() : actions::XcbConnection(nullptr) {}
 
-//     absl::StatusOr<std::unique_ptr<Dispatcher>> dispatcher;
-// };
+    // MOCK_METHOD(void, Foo, (), (override));
+};
 
-// TEST_F(LinuxDispatcherTest, CreateReturnsUnimplemented) {
-//     ASSERT_FALSE(dispatcher.ok());
-//     ASSERT_EQ(dispatcher.status().code(), absl::StatusCode::kUnimplemented);
+// TEST(LinuxDispatcherTest, CallsFoo) {
+//     auto mock = std::make_unique<MockConnection>();
+
+//     EXPECT_CALL(*mock, Foo()).Times(1);
+
+//     Dispatcher dispatcher(std::move(mock));
+
+//     actions::Keystrokes keystrokes;
+
+//     dispatcher.SendKeystrokes(std::move(keystrokes));
 // }

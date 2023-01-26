@@ -1,5 +1,7 @@
 #include "actions/linux/dispatcher.h"
 
+#include <absl/status/internal/statusor_internal.h>
+
 #include <future>
 #include <memory>
 
@@ -10,7 +12,7 @@
 #include "actions/linux/xcb_connection.h"
 
 namespace actions {
-LinuxDispatcher::LinuxDispatcher(XcbConnection&& conn)
+LinuxDispatcher::LinuxDispatcher(std::unique_ptr<XcbConnection> conn) noexcept
     : conn(std::move(conn)) {}
 
 LinuxDispatcher::LinuxDispatcher(LinuxDispatcher&& other) noexcept
@@ -22,16 +24,17 @@ LinuxDispatcher& LinuxDispatcher::operator=(LinuxDispatcher&& other) noexcept {
     return *this;
 }
 
-absl::StatusOr<LinuxDispatcher> LinuxDispatcher::Create() {
+absl::StatusOr<LinuxDispatcher> LinuxDispatcher::Create() noexcept {
     auto conn = XcbConnection::Open();
 
     if (!conn.ok()) return conn.status();
 
-    return LinuxDispatcher(std::move(conn).value());
+    return LinuxDispatcher(
+        std::make_unique<XcbConnection>(std::move(conn).value()));
 }
 
 std::future<absl::Status> LinuxDispatcher::SendKeystrokes(
-    Keystrokes& keystrokes) {
+    Keystrokes&& keystrokes) {
     std::promise<absl::Status> prom;
     prom.set_value(absl::UnimplementedError("Action not implemented."));
 

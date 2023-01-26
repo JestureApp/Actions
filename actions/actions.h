@@ -18,8 +18,8 @@ class Actions {
    public:
     static absl::StatusOr<std::shared_ptr<Actions>> Create();
 
-    static absl::StatusOr<std::shared_ptr<Actions>> Create(
-        std::unique_ptr<Dispatcher>);
+    // static absl::StatusOr<std::shared_ptr<Actions>> Create(
+    //     std::unique_ptr<Dispatcher>);
 
     ~Actions();
 
@@ -28,7 +28,7 @@ class Actions {
    private:
     Actions();
 
-    std::unique_ptr<Dispatcher> dispatcher;
+    // std::unique_ptr<Dispatcher> dispatcher;
 };
 
 }  // namespace actions

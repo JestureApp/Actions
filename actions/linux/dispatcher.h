@@ -13,7 +13,15 @@
 namespace actions {
 class LinuxDispatcher : public DispatcherBase {
    public:
-    static absl::StatusOr<LinuxDispatcher> Create();
+    /**
+     * Creates a new dispatcher.
+     *
+     * @return A `absl::Status` in the case of a failure or an `LinuxDispatcher`
+     * in the case of a success.
+     */
+    static absl::StatusOr<LinuxDispatcher> Create() noexcept;
+
+    LinuxDispatcher(std::unique_ptr<XcbConnection> conn) noexcept;
 
     LinuxDispatcher(LinuxDispatcher& other) = delete;
     LinuxDispatcher& operator=(LinuxDispatcher& other) = delete;
@@ -21,12 +29,19 @@ class LinuxDispatcher : public DispatcherBase {
     LinuxDispatcher(LinuxDispatcher&& other) noexcept;
     LinuxDispatcher& operator=(LinuxDispatcher&& other) noexcept;
 
-    std::future<absl::Status> SendKeystrokes(Keystrokes& keystrokes) override;
+    /**
+     * Sends a sequence of keystrokes to the focused window.
+     *
+     * @param keystrokes The keystrokes to send.
+     *
+     * @return A future that resolves upon an error or the completion of the
+     * action. In the event of an error that status will not be
+     * `absl::OkStatus()`.
+     */
+    std::future<absl::Status> SendKeystrokes(Keystrokes&& keystrokes) override;
 
    private:
-    LinuxDispatcher(XcbConnection&& conn);
-
-    XcbConnection conn;
+    std::unique_ptr<XcbConnection> conn;
 };
 }  // namespace actions
 

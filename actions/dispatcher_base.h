@@ -23,7 +23,7 @@ class DispatcherBase {
      * future will resolve to an error status.
      */
     virtual std::future<absl::Status> SendKeystrokes(
-        Keystrokes& keystrokes) = 0;
+        Keystrokes&& keystrokes) = 0;
 };
 }  // namespace actions
 
