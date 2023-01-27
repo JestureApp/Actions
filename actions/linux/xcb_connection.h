@@ -14,7 +14,7 @@ namespace actions {
  * A connection to a X server, this object manages the lifecycle of the
  * connection and acts as a middle man to the xcb api.
  */
-class XcbConnection : public Connection<XcbPromise> {
+class XcbConnection : public Connection {
    public:
     /**
      * Opens a connection to the default X server.
@@ -32,7 +32,8 @@ class XcbConnection : public Connection<XcbPromise> {
     XcbConnection(XcbConnection&& other) noexcept;
     XcbConnection& operator=(XcbConnection&& other) noexcept;
 
-    XcbPromise SendKeystroke(Keystroke& keystroke) noexcept override;
+    std::unique_ptr<Promise<absl::Status>> SendKeystroke(
+        Keystroke& keystroke) noexcept override;
 
    protected:
     /// Not apart of public interface. DO NOT USE outside of testing.

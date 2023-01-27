@@ -6,19 +6,25 @@
 #include "absl/status/status.h"
 
 namespace actions {
+template <typename Res>
 class Promise {
    public:
+    Promise() {}
+
+    Promise(Promise&) = delete;
+    Promise& operator=(Promise&) = delete;
+
     virtual bool poll() noexcept = 0;
 
-    std::future<absl::Status> get_future() { return prom.get_future(); }
+    std::future<Res> get_future() { return prom.get_future(); }
 
    protected:
-    void set_value(const absl::Status& value) { prom.set_value(value); }
+    void set_value(const Res& value) { prom.set_value(value); }
 
-    void set_value(absl::Status&& value) { prom.set_value(std::move(value)); }
+    void set_value(Res&& value) { prom.set_value(std::move(value)); }
 
    private:
-    std::promise<absl::Status> prom;
+    std::promise<Res> prom;
 };
 }  // namespace actions
 

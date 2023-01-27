@@ -7,33 +7,32 @@
 
 #include "absl/status/status.h"
 #include "actions/connection.h"
+#include "actions/keystroke.h"
 #include "actions/promise.h"
 
 namespace actions {
-template <class Prom, class Conn>
-
 class Dispatcher {
-    static_assert(std::is_base_of<Promise, Prom>::value,
-                  "Prom must inherit from Promise");
-
-    static_assert(std::is_base_of<Connection<Prom>, Conn>::value,
-                  "Conn must inherit from Connection<Prom>");
-
    public:
-    Dispatcher(std::unique_ptr<Conn> conn);
+    Dispatcher(std::unique_ptr<Connection> conn) noexcept;
 
-    Dispatcher(Dispatcher& other) = delete;
-    Dispatcher& operator=(Dispatcher& other) = delete;
+    Dispatcher(Dispatcher&) = delete;
+    Dispatcher& operator=(Dispatcher&) = delete;
 
-    std::future<absl::Status> SendKeystroke(Keystroke& keystroke) noexcept {
-        Prom prom = conn.SendKeystroke(keystroke);
+    Dispatcher(Dispatcher&&) noexcept;
+    Dispatcher& operator=(Dispatcher&&) noexcept;
 
-        promises.push_back(prom);
-    }
+    std::future<absl::Status> SendKeystroke(Keystroke& keystroke) noexcept;
+
+    std::future<absl::Status> SendKeystrokes(Keystrokes& keystrokes) noexcept;
 
    private:
-    std::unique_ptr<Conn> conn;
-    std::list<Prom> promises;
+    void AddPromise(std::unique_ptr<Promise<absl::Status>>);
+
+    void Loop();
+
+    std::unique_ptr<std::thread> thread;
+    std::unique_ptr<Connection> conn;
+    std::list<std::unique_ptr<Promise<absl::Status>>> promises;
 };
 }  // namespace actions
 

@@ -6,7 +6,6 @@
 #include "actions/promise.h"
 
 namespace actions {
-template <class Prom>
 class Connection {
    public:
     /**
@@ -20,7 +19,8 @@ class Connection {
      * future will resolve to `absl::OkStatus`. In the case of an error the
      * future will resolve to an error status.
      */
-    virtual Prom SendKeystroke(Keystroke& keystroke) noexcept = 0;
+    virtual std::unique_ptr<Promise<absl::Status>> SendKeystroke(
+        Keystroke& keystroke) noexcept = 0;
 };
 }  // namespace actions
 

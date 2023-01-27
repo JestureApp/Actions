@@ -4,15 +4,18 @@
 #include <xcb/xcb.h>
 #include <xcb/xcbext.h>
 
+#include <list>
+
 #include "absl/status/status.h"
 #include "actions/promise.h"
 
 namespace actions {
-class XcbPromise : public Promise {
+class XcbPromise : public Promise<absl::Status> {
    public:
-    XcbPromise(xcb_connection_t *, unsigned int);
+    XcbPromise(xcb_connection_t *conn, std::list<unsigned int> &&seqnums);
 
-    XcbPromise(xcb_connection_t *, xcb_void_cookie_t);
+    XcbPromise(XcbPromise &&) noexcept;
+    XcbPromise &operator=(XcbPromise &&) noexcept;
 
     bool poll() noexcept override;
 
@@ -20,7 +23,8 @@ class XcbPromise : public Promise {
     void handle_error(xcb_generic_error_t *_error);
 
     xcb_connection_t *conn;
-    unsigned int seqnum;
+    xcb_generic_error_t *error = nullptr;
+    std::list<unsigned int> seqnums;
 };
 }  // namespace actions
 

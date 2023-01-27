@@ -39,9 +39,19 @@ absl::StatusOr<XcbConnection> XcbConnection::Open() {
     return XcbConnection(conn);
 }
 
-XcbPromise XcbConnection::SendKeystroke(Keystroke& keystroke) noexcept {
-    return XcbPromise(conn, xcb_test_fake_input_checked(conn, XCB_KEY_PRESS, 0,
-                                                        0, 0, 0, 0, 0));
+std::unique_ptr<Promise<absl::Status>> XcbConnection::SendKeystroke(
+    Keystroke& keystroke) noexcept {
+    std::list<unsigned int> seqnums;
+
+    seqnums.push_back(
+        xcb_test_fake_input_checked(conn, XCB_KEY_PRESS, 0, 0, 0, 0, 0, 0)
+            .sequence);
+
+    seqnums.push_back(
+        xcb_test_fake_input_checked(conn, XCB_KEY_RELEASE, 0, 0, 0, 0, 0, 0)
+            .sequence);
+
+    return std::make_unique<XcbPromise>(conn, std::move(seqnums));
 }
 
 }  // namespace actions

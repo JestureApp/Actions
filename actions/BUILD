@@ -25,8 +25,15 @@ cc_library(
 
 cc_library(
     name = "dispatcher",
+    srcs = ["dispatcher.cc"],
     hdrs = ["dispatcher.h"],
-    deps = [],
+    deps = [
+        ":connection",
+        ":keystroke",
+        ":promise",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:statusor",
+    ],
 )
 
 cc_library(
