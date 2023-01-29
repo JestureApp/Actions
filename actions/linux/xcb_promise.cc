@@ -26,7 +26,7 @@ XcbPromise &XcbPromise::operator=(XcbPromise &&other) noexcept {
     return *this;
 }
 
-bool XcbPromise::poll() noexcept {
+bool XcbPromise::Poll() noexcept {
     seqnums.remove_if([this](unsigned int seqnum) {
         void *reply = nullptr;
 

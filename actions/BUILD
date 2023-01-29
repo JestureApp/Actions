@@ -36,6 +36,22 @@ cc_library(
     ],
 )
 
+cc_test(
+    name = "dispatcher_test",
+    size = "small",
+    srcs = ["dispatcher_test.cc"],
+    tags = ["unit"],
+    deps = [
+        ":connection",
+        ":dispatcher",
+        ":keystroke",
+        ":promise",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:statusor",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 cc_library(
     name = "keystroke",
     hdrs = ["keystroke.h"],

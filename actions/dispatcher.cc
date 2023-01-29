@@ -7,6 +7,17 @@
 
 namespace actions {
 
+absl::StatusOr<Dispatcher> Dispatcher::Create(
+    std::unique_ptr<Connection> conn) noexcept {
+    Dispatcher dispatcher(std::move(conn));
+
+    absl::Status status = dispatcher.Start();
+
+    if (!status.ok()) return status;
+
+    return dispatcher;
+}
+
 std::future<absl::Status> all(
     std::vector<std::future<absl::Status>>&& futures) noexcept {
     return std::async(
@@ -24,16 +35,57 @@ std::future<absl::Status> all(
 }
 
 Dispatcher::Dispatcher(std::unique_ptr<Connection> conn) noexcept
-    : thread(new std::thread(&Dispatcher::Loop, this)), conn(std::move(conn)) {}
+    : conn(std::move(conn)), abort_requested(false), thread_running(false) {}
+
+Dispatcher::~Dispatcher() noexcept { Stop(); }
 
 Dispatcher::Dispatcher(Dispatcher&& other) noexcept
-    : conn(std::move(other.conn)), promises(std::move(other.promises)) {}
+    : abort_requested(false), thread_running(false) {
+    bool was_running = other.thread_running.load();
 
-Dispatcher& Dispatcher::operator=(Dispatcher&& other) noexcept {
+    other.Stop();
+
     conn = std::move(other.conn);
     promises = std::move(other.promises);
 
+    // CHECKME: is this the best way to do this?
+    if (was_running) assert(Start().ok());
+    // assert(Start().ok());
+}
+
+Dispatcher& Dispatcher::operator=(Dispatcher&& other) noexcept {
+    Stop();
+
+    bool was_running = other.thread_running.load();
+
+    other.Stop();
+
+    conn = std::move(other.conn);
+    promises = std::move(other.promises);
+
+    // CHECKME: is this the best way to do this?
+    if (was_running) assert(Start().ok());
+
     return *this;
+}
+
+absl::Status Dispatcher::Start() noexcept {
+    try {
+        thread_running.store(true);
+        thread = std::thread(&Dispatcher::Loop, this);
+    } catch (...) {
+        return absl::UnknownError("Failed to start dispatcher thread");
+    }
+
+    return absl::OkStatus();
+}
+
+void Dispatcher::Stop() noexcept {
+    abort_requested.store(true);
+
+    // TODO: find way to forcefully abort.
+
+    if (thread.joinable()) thread.join();
 }
 
 std::future<absl::Status> Dispatcher::SendKeystroke(
@@ -60,18 +112,32 @@ std::future<absl::Status> Dispatcher::SendKeystrokes(
 }
 
 void Dispatcher::AddPromise(std::unique_ptr<Promise<absl::Status>> prom) {
+    std::unique_lock<std::mutex> lk(promises_mutex);
+
     promises.push_back(std::move(prom));
+
+    // promises_cv.notify_one();
 }
 
-void Dispatcher::Loop() {
-    // TODO: locking
-    while (true) {
-        // TODO: If empty wait for new data
+void Dispatcher::Loop() noexcept {
+    while (!abort_requested.load()) {
+        {
+            {
+                std::unique_lock<std::mutex> lk(promises_mutex);
+                // while (promises.empty() && !abort_requested.load()) {
+                //     promises_cv.wait(lk);
+                // }
 
-        promises.remove_if(&Promise<absl::Status>::poll);
+                if (promises.empty()) continue;
 
-        std::this_thread::yield();
+                promises.remove_if([](auto& prom) { return prom->Poll(); });
+            }
+
+            std::this_thread::yield();
+        }
     }
+
+    thread_running.store(false);
 }
 
 }  // namespace actions

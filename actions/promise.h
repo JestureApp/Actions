@@ -6,15 +6,25 @@
 #include "absl/status/status.h"
 
 namespace actions {
+// TODO: make promises cancellable.
+
 template <typename Res>
 class Promise {
    public:
     Promise() {}
 
+    virtual ~Promise() {}
+
     Promise(Promise&) = delete;
     Promise& operator=(Promise&) = delete;
 
-    virtual bool poll() noexcept = 0;
+    Promise(Promise&& other) noexcept : prom(std::move(other.prom)) {}
+    Promise& operator=(Promise&& other) noexcept {
+        prom = std::move(other.prom);
+        return *this;
+    }
+
+    virtual bool Poll() noexcept = 0;
 
     std::future<Res> get_future() { return prom.get_future(); }
 

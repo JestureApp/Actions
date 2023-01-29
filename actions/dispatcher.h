@@ -6,6 +6,7 @@
 #include <type_traits>
 
 #include "absl/status/status.h"
+#include "absl/status/statusor.h"
 #include "actions/connection.h"
 #include "actions/keystroke.h"
 #include "actions/promise.h"
@@ -13,7 +14,11 @@
 namespace actions {
 class Dispatcher {
    public:
-    Dispatcher(std::unique_ptr<Connection> conn) noexcept;
+    static absl::StatusOr<Dispatcher> Create();
+    static absl::StatusOr<Dispatcher> Create(
+        std::unique_ptr<Connection>) noexcept;
+
+    ~Dispatcher() noexcept;
 
     Dispatcher(Dispatcher&) = delete;
     Dispatcher& operator=(Dispatcher&) = delete;
@@ -26,13 +31,22 @@ class Dispatcher {
     std::future<absl::Status> SendKeystrokes(Keystrokes& keystrokes) noexcept;
 
    private:
+    Dispatcher(std::unique_ptr<Connection> conn) noexcept;
+
+    absl::Status Start() noexcept;
+    void Stop() noexcept;
+    void Loop() noexcept;
+
     void AddPromise(std::unique_ptr<Promise<absl::Status>>);
 
-    void Loop();
-
-    std::unique_ptr<std::thread> thread;
     std::unique_ptr<Connection> conn;
     std::list<std::unique_ptr<Promise<absl::Status>>> promises;
+
+    std::thread thread;
+    std::mutex promises_mutex;
+    // std::condition_variable promises_cv;
+    std::atomic_bool abort_requested;
+    std::atomic_bool thread_running;
 };
 }  // namespace actions
 

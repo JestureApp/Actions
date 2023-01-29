@@ -17,7 +17,7 @@ class XcbPromise : public Promise<absl::Status> {
     XcbPromise(XcbPromise &&) noexcept;
     XcbPromise &operator=(XcbPromise &&) noexcept;
 
-    bool poll() noexcept override;
+    bool Poll() noexcept override;
 
    private:
     void handle_error(xcb_generic_error_t *_error);

@@ -29,14 +29,14 @@ XcbConnection& XcbConnection::operator=(XcbConnection&& other) noexcept {
     return *this;
 }
 
-absl::StatusOr<XcbConnection> XcbConnection::Open() {
+absl::StatusOr<std::unique_ptr<XcbConnection>> XcbConnection::Open() {
     int _screen_num;
     xcb_connection_t* conn = xcb_connect(nullptr, &_screen_num);
 
     if (conn == nullptr)
         return absl::UnavailableError("Could not connected to X server");
 
-    return XcbConnection(conn);
+    return std::unique_ptr<XcbConnection>(new XcbConnection(conn));
 }
 
 std::unique_ptr<Promise<absl::Status>> XcbConnection::SendKeystroke(

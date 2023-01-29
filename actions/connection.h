@@ -2,12 +2,15 @@
 #define __H_CONNECTION__
 
 #include "absl/status/status.h"
+#include "absl/status/statusor.h"
 #include "actions/keystroke.h"
 #include "actions/promise.h"
 
 namespace actions {
 class Connection {
    public:
+    static absl::StatusOr<std::unique_ptr<Connection>> Create() noexcept;
+
     /**
      * Sends a sequence of keystroke events to the focused window
      *
@@ -21,6 +24,8 @@ class Connection {
      */
     virtual std::unique_ptr<Promise<absl::Status>> SendKeystroke(
         Keystroke& keystroke) noexcept = 0;
+
+    virtual ~Connection(){};
 };
 }  // namespace actions
 

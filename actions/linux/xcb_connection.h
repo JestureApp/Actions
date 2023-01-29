@@ -22,7 +22,7 @@ class XcbConnection : public Connection {
      * @return A `absl::Status` in the case of a failure or an `XcbConnection`
      * in the case of a success.
      */
-    static absl::StatusOr<XcbConnection> Open();
+    static absl::StatusOr<std::unique_ptr<XcbConnection>> Open();
 
     virtual ~XcbConnection();
 
