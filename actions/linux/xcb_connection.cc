@@ -1,7 +1,5 @@
 #include "actions/linux/xcb_connection.h"
 
-#include <absl/status/internal/statusor_internal.h>
-#include <absl/status/status.h>
 #include <xcb/xcb.h>
 #include <xcb/xtest.h>
 

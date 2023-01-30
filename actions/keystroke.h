@@ -6,6 +6,7 @@ namespace actions {
 
 typedef struct {
     char key;
+    int mask;
 } Keystroke;
 
 typedef std::vector<Keystroke> Keystrokes;
