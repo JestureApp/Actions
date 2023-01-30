@@ -2,6 +2,7 @@
 #define __H_LINUX_XCB_CONNECTION__
 
 #include <xcb/xcb.h>
+#include <xcb/xcb_keysyms.h>
 
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
@@ -37,10 +38,16 @@ class XcbConnection : public Connection {
 
    protected:
     /// Not apart of public interface. DO NOT USE outside of testing.
-    XcbConnection(xcb_connection_t* conn);
+    XcbConnection(xcb_connection_t* conn, xcb_screen_t* screen,
+                  xcb_key_symbols_t* key_symbols);
 
    private:
+    void Flush() noexcept;
+
     xcb_connection_t* conn;
+    xcb_screen_t* screen;
+
+    xcb_key_symbols_t* key_symbols;
 };
 }  // namespace actions
 #endif
