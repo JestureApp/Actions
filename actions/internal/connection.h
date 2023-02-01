@@ -11,6 +11,8 @@ namespace actions::internal {
 /// @brief An abstract connection to a display server.
 class Connection {
    public:
+    virtual ~Connection(){};
+
     /// @brief Sends a keystroke to the associated display server.
     /// @param keystroke The keystroke to send.
     /// @param target The target of the keystroke.

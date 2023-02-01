@@ -4,6 +4,7 @@
 #include <future>
 
 #include "absl/status/status.h"
+#include "absl/status/statusor.h"
 #include "actions/action.h"
 #include "actions/internal/connection.h"
 
@@ -18,6 +19,10 @@ class Actions {
     Actions(std::unique_ptr<internal::Connection> conn) noexcept;
 
    public:
+    static absl::StatusOr<Actions> Create(
+        std::unique_ptr<internal::Connection> conn) noexcept;
+
+
     Actions(Actions&) = delete;
     Actions& operator=(Actions&) = delete;
 
