@@ -9,3 +9,12 @@ cc_library(
         "@com_google_absl//absl/types:variant",
     ],
 )
+
+cc_library(
+    name = "actions",
+    hdrs = ["actions.h"],
+    deps = [
+        ":action",
+        "//actions/internal:connection",
+    ],
+)
