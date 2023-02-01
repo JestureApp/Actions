@@ -9,4 +9,7 @@
     "cSpell.words": [
         "seqnums"
     ],
+    "[cpp]": {
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
 }

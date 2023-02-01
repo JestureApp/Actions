@@ -6,7 +6,8 @@
 
 namespace actions::action {
 
-/// @brief Represents various modifier keys that modify the meaning of a keystroke.
+/// @brief Represents various modifier keys that modify the meaning of a
+/// keystroke.
 enum class KeyModifier {
     Ctrl,
     Alt,
@@ -14,12 +15,15 @@ enum class KeyModifier {
     Meta,
 };
 
-std::unordered_set<KeyModifier> operator|(KeyModifier mod1, KeyModifier mod2) noexcept;
-std::unordered_set<KeyModifier> operator|(std::unordered_set<KeyModifier>&& mods, KeyModifier mod) noexcept;
-std::unordered_set<KeyModifier> operator|(KeyModifier mod, std::unordered_set<KeyModifier>&& mods) noexcept;
+std::unordered_set<KeyModifier> operator|(KeyModifier mod1,
+                                          KeyModifier mod2) noexcept;
+std::unordered_set<KeyModifier> operator|(
+    std::unordered_set<KeyModifier>&& mods, KeyModifier mod) noexcept;
+std::unordered_set<KeyModifier> operator|(
+    KeyModifier mod, std::unordered_set<KeyModifier>&& mods) noexcept;
 
-
-/// @brief Represents a keystroke. A collection of keys with associated modifiers.
+/// @brief Represents a keystroke. A collection of keys with associated
+/// modifiers.
 typedef struct {
     /// @brief The modifiers that are active for the keystroke.
     std::unordered_set<KeyModifier> modifiers;
@@ -28,8 +32,6 @@ typedef struct {
     std::vector<char> keys;
 } Keystroke;
 
+}  // namespace actions::action
 
-
-}
-
-#endif // ACTIONS_ACTION_KEYSTROKE_H
+#endif  // ACTIONS_ACTION_KEYSTROKE_H

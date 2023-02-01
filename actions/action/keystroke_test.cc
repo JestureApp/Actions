@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
-
 #include "actions/action/keystroke.h"
+
+#include "gtest/gtest.h"
 
 using namespace actions::action;
 
