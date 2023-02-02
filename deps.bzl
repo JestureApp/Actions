@@ -40,7 +40,7 @@ def actions_repositiories():
         name = "xcb",
         path = "/usr",
         # CHECKME: Might need this path to be scoped differently for use outside of repository
-        build_file = "@//third_party:xcb.BUILD",
+        build_file = "//third_party:xcb.BUILD",
     )
 
     maybe(
@@ -48,5 +48,5 @@ def actions_repositiories():
         name = "X11",
         path = "/usr",
         # CHECKME: Might need this path to be scoped differently for use outside of repository
-        build_file = "@//third_party:X11.BUILD",
+        build_file = "//third_party:X11.BUILD",
     )
