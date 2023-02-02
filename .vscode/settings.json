@@ -1,8 +1,15 @@
 {
-  "editor.formatOnSave": true,
-  "clangd.arguments": [
-    "--header-insertion=never",
-    "--compile-commands-dir=${workspaceFolder}/",
-    "--query-driver=**"
-  ],
+    "editor.formatOnSave": true,
+    "clangd.arguments": [
+        "--header-insertion=never",
+        "--compile-commands-dir=${workspaceFolder}/",
+        "--query-driver=**"
+    ],
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "cSpell.words": [
+        "seqnums"
+    ],
+    "[cpp]": {
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
 }

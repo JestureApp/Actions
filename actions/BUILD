@@ -1,46 +1,42 @@
 package(default_visibility = ["//visibility:public"])
 
-
 cc_library(
-    name = "keystroke",
-    srcs = ["keystroke.cc"],
-    hdrs = ["keystroke.h"],
+    name = "action",
+    hdrs = ["action.h"],
     deps = [
-        "@com_google_absl//absl/status:statusor",
-        "@com_google_absl//absl/status",
-    ]
-)
-
-cc_library(
-    name = "connection_base",
-    hdrs = ["connection_base.h"],
-    deps = [
-        ":keystroke",
-        "@com_google_absl//absl/status:statusor",
-        "@com_google_absl//absl/status",
-    ]
-)
-
-cc_library(
-    name = "connection",
-    srcs = ["connection.cc"],
-    hdrs = ["connection.h"],
-    deps = select({
-        "@platforms//os:linux": ["//actions/linux:connection"],
-    }) + [
-        ":connection_base",
-        "@com_google_absl//absl/status:statusor",
-    ]
+        "//actions/action:keystroke",
+        "//actions/action:target",
+        "@com_google_absl//absl/types:variant",
+    ],
 )
 
 cc_library(
     name = "actions",
+    srcs = ["actions.cc"],
     hdrs = ["actions.h"],
     deps = [
-        ":connection",
-        ":keystroke",
-        "@com_google_absl//absl/status:statusor",
+        ":action",
+        "//actions/internal:connection",
+        "//actions/internal:util",
         "@com_google_absl//absl/status",
-        "@com_google_absl//absl/utility",
-    ]
+        "@com_google_absl//absl/status:statusor",
+    ] + select({
+        "@platforms//os:linux": ["//actions/internal/linux:xcb_connection"],
+        "//conditions:default": ["//actions/internal/stub:stub_connection"],
+    }),
+)
+
+cc_test(
+    name = "actions_test",
+    size = "small",
+    srcs = ["actions_test.cc"],
+    tags = ["unit"],
+    deps = [
+        ":actions",
+        "//actions/internal:connection",
+        "//actions/internal:util",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:statusor",
+        "@com_google_googletest//:gtest_main",
+    ],
 )
