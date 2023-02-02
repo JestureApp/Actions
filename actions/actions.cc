@@ -7,6 +7,8 @@
 
 #if defined(__linux)
 #include "actions/internal/linux/xcb_connection.h"
+#else
+#include "actions/internal/stub/stub_connection.h"
 #endif
 
 namespace actions {
@@ -16,15 +18,17 @@ absl::StatusOr<Actions> Actions::Create(
     return Actions(std::move(conn));
 }
 
-#if defined(__linux)
 absl::StatusOr<Actions> Actions::Create() noexcept {
+#if defined(__linux)
     auto conn = internal::linux::XcbConnection::Create();
+#else
+    auto conn = internal::stub::StubConnection::Create();
+#endif
 
     if (!conn.ok()) return conn.status();
 
     return Actions(std::move(conn.value()));
 }
-#endif
 
 Actions::Actions(std::unique_ptr<internal::Connection> conn) noexcept
     : conn(std::move(conn)) {}

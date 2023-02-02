@@ -22,6 +22,7 @@ cc_library(
         "@com_google_absl//absl/status:statusor",
     ] + select({
         "@platforms//os:linux": ["//actions/internal/linux:xcb_connection"],
+        "//conditions:default": ["//actions/internal/stub:stub_connection"],
     }),
 )
 

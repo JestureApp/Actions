@@ -23,6 +23,7 @@ cc_library(
         "//actions/internal:connection",
         "//actions/internal:util",
         "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:statusor",
         "@com_google_absl//absl/types:variant",
         "@xcb",
     ],
