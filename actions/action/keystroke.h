@@ -15,8 +15,8 @@ using internal::linux::Key;
 using internal::linux::ParseKeystroke;
 #else
 using Key = unsigned int;
-absl::StatusOr<std::unordered_set<Key> > ParseKeystroke(std::string) noexcept {
-    return std::unordered_set();
+absl::StatusOr<std::vector<Key> > ParseKeystroke(std::string) noexcept {
+    return std::vector<Key>();
 }
 #endif
 
