@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Example: keysym_experiment (dbg)",
+            "preLaunchTask": "Build keysym_experiment (debug)",
+            "type": "cppdbg",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceRoot}/bazel-bin/actions/examples/keysym_experiment",
+            "environment": [],
+            "args": [],
+        },
+        {
+            "name": "Example: keysym_experiment_x11 (dbg)",
+            "preLaunchTask": "Build keysym_experiment_x11 (debug)",
+            "type": "cppdbg",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceRoot}/bazel-bin/actions/examples/keysym_experiment_x11",
+            "environment": [],
+            "args": [],
+        },
+        {
+            "name": "Example: actions_keystroke (dbg)",
+            "preLaunchTask": "Build actions_keystroke (debug)",
+            "type": "cppdbg",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceRoot}/bazel-bin/actions/examples/actions_keystroke",
+            "environment": [],
+            "args": [],
+        },
+    ]
+}
