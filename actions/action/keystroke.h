@@ -4,6 +4,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include "absl/status/status.h"
+
 #if defined(__linux__)
 #include "actions/internal/linux/keystroke.h"
 #endif
