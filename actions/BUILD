@@ -1,63 +1,42 @@
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
+    name = "action",
+    hdrs = ["action.h"],
+    deps = [
+        "//actions/action:keystroke",
+        "//actions/action:target",
+        "@com_google_absl//absl/types:variant",
+    ],
+)
+
+cc_library(
     name = "actions",
     srcs = ["actions.cc"],
     hdrs = ["actions.h"],
     deps = [
-        "dispatcher",
-        ":keystroke",
+        ":action",
+        "//actions/internal:connection",
+        "//actions/internal:util",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/status:statusor",
-    ],
-)
-
-cc_library(
-    name = "connection",
-    hdrs = ["connection.h"],
-    deps = [
-        ":keystroke",
-        ":promise",
-        "@com_google_absl//absl/status",
-        "@com_google_absl//absl/status:statusor",
-    ],
-)
-
-cc_library(
-    name = "dispatcher",
-    srcs = ["dispatcher.cc"],
-    hdrs = ["dispatcher.h"],
-    deps = [
-        ":connection",
-        ":keystroke",
-        ":promise",
-        "@com_google_absl//absl/status",
-        "@com_google_absl//absl/status:statusor",
-    ],
+    ] + select({
+        "@platforms//os:linux": ["//actions/internal/linux:xcb_connection"],
+        "//conditions:default": ["//actions/internal/stub:stub_connection"],
+    }),
 )
 
 cc_test(
-    name = "dispatcher_test",
+    name = "actions_test",
     size = "small",
-    srcs = ["dispatcher_test.cc"],
+    srcs = ["actions_test.cc"],
     tags = ["unit"],
     deps = [
-        ":connection",
-        ":dispatcher",
-        ":keystroke",
-        ":promise",
+        ":actions",
+        "//actions/internal:connection",
+        "//actions/internal:util",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/status:statusor",
         "@com_google_googletest//:gtest_main",
     ],
-)
-
-cc_library(
-    name = "keystroke",
-    hdrs = ["keystroke.h"],
-)
-
-cc_library(
-    name = "promise",
-    hdrs = ["promise.h"],
 )

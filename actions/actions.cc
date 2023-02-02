@@ -1,48 +1,57 @@
 #include "actions/actions.h"
 
-#include <absl/status/status.h>
-
-#include <future>
-#include <memory>
-
 #include "absl/status/status.h"
-#include "absl/status/statusor.h"
-#include "actions/dispatcher.h"
-#include "actions/keystroke.h"
+#include "actions/action.h"
+#include "actions/internal/connection.h"
+#include "actions/internal/util.h"
+
+#if defined(__linux)
+#include "actions/internal/linux/xcb_connection.h"
+#else
+#include "actions/internal/stub/stub_connection.h"
+#endif
 
 namespace actions {
-Actions::Actions(){};
 
-absl::StatusOr<std::shared_ptr<Actions>> Actions::Create() {
-    // absl::StatusOr<std::unique_ptr<Dispatcher>> dispatcher =
-    //     Dispatcher::Create();
+absl::StatusOr<Actions> Actions::Create(
+    std::unique_ptr<internal::Connection> conn) noexcept {
+    return Actions(std::move(conn));
+}
 
-    // if (!dispatcher.ok()) {
-    //     return dispatcher.status();
-    // }
+absl::StatusOr<Actions> Actions::Create() noexcept {
+#if defined(__linux)
+    auto conn = internal::linux::XcbConnection::Create();
+#else
+    auto conn = internal::stub::StubConnection::Create();
+#endif
 
-    // return Actions::Create(std::move(dispatcher).value());
-    return absl::UnimplementedError("Not implemented");
-};
+    if (!conn.ok()) return conn.status();
 
-// absl::StatusOr<std::shared_ptr<Actions>> Actions::Create(
-//     std::unique_ptr<Dispatcher> dispatcher) {
-//     Actions* actions = new Actions();
-//     actions->dispatcher = std::move(dispatcher);
+    return Actions(std::move(conn.value()));
+}
 
-//     return std::shared_ptr<Actions>(actions);
-// }
+Actions::Actions(std::unique_ptr<internal::Connection> conn) noexcept
+    : conn(std::move(conn)) {}
 
-std::future<absl::Status> Actions::Perform(Action& action) {
-    // if (absl::holds_alternative<Keystrokes>(action)) {
-    //     return dispatcher->SendKeystrokes(absl::get<Keystrokes>(action));
-    // }
+Actions::Actions(Actions&& other) noexcept : conn(std::move(other.conn)) {}
 
-    std::promise<absl::Status> prom;
-    prom.set_value(absl::UnimplementedError("Action not implemented."));
+Actions& Actions::operator=(Actions&& other) noexcept {
+    if (this != &other) {
+        conn = std::move(other.conn);
+    }
 
-    // CHECKME: will the promises deconstruction cause problems?
-    return prom.get_future();
+    return *this;
+}
+
+std::future<absl::Status> Actions::Perform(
+    const Action& action, const action::Target& target) noexcept {
+    if (absl::holds_alternative<action::Keystroke>(action)) {
+        return conn->SendKeystroke(absl::get<action::Keystroke>(action),
+                                   target);
+    }
+
+    return internal::util::Resolve(
+        absl::UnimplementedError("Not Implemented."));
 }
 
 }  // namespace actions

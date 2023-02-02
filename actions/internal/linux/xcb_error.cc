@@ -1,12 +1,10 @@
-#include "actions/linux/xcb_error.h"
+#include "actions/internal/linux/xcb_error.h"
 
+#include <absl/status/status.h>
 #include <xcb/xcb.h>
 
-#include "absl/status/status.h"
-
-namespace actions {
-
-absl::Status XcbError(int code) noexcept {
+namespace actions::internal::linux {
+absl::Status XcbStatus(int code) noexcept {
     switch (code) {
         case 0:
             return absl::OkStatus();
@@ -52,4 +50,11 @@ absl::Status XcbError(int code) noexcept {
     }
 }
 
-}  // namespace actions
+absl::Status XcbErrorToStatus(xcb_connection_t *conn,
+                              xcb_generic_error_t *error) noexcept {
+    // TODO: Determine extension.
+    return absl::UnknownError("XCB error with code " +
+                              std::to_string(error->major_code) + "." +
+                              std::to_string(error->minor_code));
+}
+}  // namespace actions::internal::linux

@@ -53,18 +53,46 @@
             },
         },
         {
-            "label": "Build dispatcher_test (debug)",
+            "label": "Build keysym_experiment (debug)",
             "type": "shell",
             "command": "bazel",
             "args": [
                 "build",
                 "--compilation_mode=dbg",
-                "//actions:dispatcher_test",
+                "//actions/examples:keysym_experiment",
             ],
             "presentation": {
                 "reveal": "silent",
             },
             "group": "build"
-        }
+        },
+        {
+            "label": "Build keysym_experiment_x11 (debug)",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                "--compilation_mode=dbg",
+                "//actions/examples:keysym_experiment_x11",
+            ],
+            "presentation": {
+                "reveal": "silent",
+            },
+            "group": "build"
+        },
+        {
+            "label": "Build actions_keystroke (debug)",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                "--compilation_mode=dbg",
+                "//actions/examples:actions_keystroke",
+            ],
+            "presentation": {
+                "reveal": "silent",
+            },
+            "group": "build"
+        },
     ]
 }
