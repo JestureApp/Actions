@@ -4,6 +4,8 @@
 #include <future>
 #include <type_traits>
 
+#include "absl/status/status.h"
+
 namespace actions::internal::util {
 
 template <typename Res>
@@ -14,6 +16,9 @@ std::future<Res> Resolve(Res&& res) noexcept {
     return std::async(std::launch::deferred,
                       [res = std::move(res)]() { return res; });
 }
+
+std::future<absl::Status> AllOk(
+    std::vector<std::future<absl::Status>>&& futures) noexcept;
 
 }  // namespace actions::internal::util
 

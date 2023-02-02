@@ -5,14 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Test: dispatcher_test (dbg)",
-            "preLaunchTask": "Build dispatcher_test (debug)",
+            "name": "Test: keysym_experiment (dbg)",
+            "preLaunchTask": "Build keysym_experiment (debug)",
             "type": "cppdbg",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "program": "${workspaceRoot}/bazel-bin/actions/dispatcher_test",
+            "program": "${workspaceRoot}/bazel-bin/actions/examples/keysym_experiment",
             "environment": [],
             "args": [],
-        }
+        },
+        {
+            "name": "Test: keysym_experiment_x11 (dbg)",
+            "preLaunchTask": "Build keysym_experiment_x11 (debug)",
+            "type": "cppdbg",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceRoot}/bazel-bin/actions/examples/keysym_experiment_x11",
+            "environment": [],
+            "args": [],
+        },
     ]
 }

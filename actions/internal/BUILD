@@ -12,7 +12,7 @@ cc_library(
 cc_library(
     name = "util",
     hdrs = ["util.h"],
-    deps = [],
+    deps = ["@com_google_absl//absl/status"],
 )
 
 cc_test(

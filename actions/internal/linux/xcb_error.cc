@@ -52,7 +52,9 @@ absl::Status XcbStatus(int code) noexcept {
 
 absl::Status XcbErrorToStatus(xcb_connection_t *conn,
                               xcb_generic_error_t *error) noexcept {
-    // TODO
-    return absl::UnimplementedError("TODO");
+    // TODO: Determine extension.
+    return absl::UnknownError("XCB error with code " +
+                              std::to_string(error->major_code) + "." +
+                              std::to_string(error->minor_code));
 }
 }  // namespace actions::internal::linux
