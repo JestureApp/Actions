@@ -1,16 +1,16 @@
-package(default_visibility = ["//actions/internal:__pkg__"])
+package(default_visibility = ["//actions:__subpackages__"])
 
 cc_library(
     name = "keystroke",
     srcs = ["keystroke.cc"],
     hdrs = ["keystroke.h"],
-    visibility = ["//actions:__subpackages__"],
     deps = [
         "@X11",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/status:statusor",
         "@xcb",
     ],
+    alwayslink = 1,
 )
 
 cc_library(
@@ -18,9 +18,12 @@ cc_library(
     srcs = ["xcb_connection.cc"],
     hdrs = ["xcb_connection.h"],
     deps = [
+        ":xcb_error",
         ":xcb_keyboard",
         "//actions/internal:connection",
+        "//actions/internal:util",
         "@com_google_absl//absl/status",
+        "@com_google_absl//absl/types:variant",
         "@xcb",
     ],
 )

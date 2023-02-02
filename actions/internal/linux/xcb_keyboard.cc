@@ -15,6 +15,7 @@
 #include "actions/internal/util.h"
 
 namespace actions::internal::linux {
+
 XcbKeyboard::XcbKeyboard(xcb_connection_t* conn) noexcept
     : conn(conn), key_symbols(xcb_key_symbols_alloc(conn)) {}
 
@@ -42,13 +43,14 @@ XcbKeyboard& XcbKeyboard::operator=(XcbKeyboard&& other) noexcept {
 
 std::future<absl::Status> XcbKeyboard::SendKeystrokes(
     const action::Keystroke& keystroke, xcb_window_t root) noexcept {
-    std::vector<std::future<absl::Status>> futures(keystroke.size() * 2);
+    std::vector<std::future<absl::Status>> futures;
+    futures.reserve(keystroke.size() * 2);
 
-    for (xcb_keycode_t key : keystroke) {
+    for (xcb_keysym_t key : keystroke) {
         futures.push_back(SendKey(true, key, root));
     }
 
-    for (xcb_keycode_t key : keystroke) {
+    for (xcb_keysym_t key : keystroke) {
         futures.push_back(SendKey(false, key, root));
     }
 

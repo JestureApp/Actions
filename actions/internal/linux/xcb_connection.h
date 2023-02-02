@@ -6,6 +6,7 @@
 #include <future>
 
 #include "absl/status/status.h"
+#include "absl/status/statusor.h"
 #include "actions/internal/connection.h"
 #include "actions/internal/linux/xcb_keyboard.h"
 
@@ -14,10 +15,14 @@ namespace actions::internal::linux {
 class XcbConnection : public Connection {
    private:
     xcb_connection_t* conn;
+    xcb_screen_t* screen;
     XcbKeyboard keyboard;
 
    public:
-    XcbConnection(xcb_connection_t* conn, XcbKeyboard&& keyboard) noexcept;
+    static absl::StatusOr<std::unique_ptr<XcbConnection>> Create() noexcept;
+
+    XcbConnection(xcb_connection_t* conn, xcb_screen_t* screen,
+                  XcbKeyboard&& keyboard) noexcept;
     ~XcbConnection() noexcept;
 
     XcbConnection(XcbConnection&) = delete;

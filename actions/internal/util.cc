@@ -9,7 +9,7 @@ std::future<absl::Status> AllOk(
     std::vector<std::future<absl::Status>>&& futures) noexcept {
     return std::async(
         std::launch::deferred,
-        [](std::vector<std::future<absl::Status>> futures) {
+        [=](std::vector<std::future<absl::Status>> futures) {
             absl::Status status = absl::OkStatus();
 
             for (auto& fut : futures) {

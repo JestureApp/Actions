@@ -5,12 +5,26 @@
 #include "actions/internal/connection.h"
 #include "actions/internal/util.h"
 
+#if defined(__linux)
+#include "actions/internal/linux/xcb_connection.h"
+#endif
+
 namespace actions {
 
 absl::StatusOr<Actions> Actions::Create(
     std::unique_ptr<internal::Connection> conn) noexcept {
     return Actions(std::move(conn));
 }
+
+#if defined(__linux)
+absl::StatusOr<Actions> Actions::Create() noexcept {
+    auto conn = internal::linux::XcbConnection::Create();
+
+    if (!conn.ok()) return conn.status();
+
+    return Actions(std::move(conn.value()));
+}
+#endif
 
 Actions::Actions(std::unique_ptr<internal::Connection> conn) noexcept
     : conn(std::move(conn)) {}

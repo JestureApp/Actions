@@ -20,7 +20,9 @@ cc_library(
         "//actions/internal:util",
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/status:statusor",
-    ],
+    ] + select({
+        "@platforms//os:linux": ["//actions/internal/linux:xcb_connection"],
+    }),
 )
 
 cc_test(

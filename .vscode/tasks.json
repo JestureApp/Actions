@@ -79,6 +79,20 @@
                 "reveal": "silent",
             },
             "group": "build"
-        }
+        },
+        {
+            "label": "Build actions_keystroke (debug)",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                "--compilation_mode=dbg",
+                "//actions/examples:actions_keystroke",
+            ],
+            "presentation": {
+                "reveal": "silent",
+            },
+            "group": "build"
+        },
     ]
 }

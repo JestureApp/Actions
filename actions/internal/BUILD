@@ -11,6 +11,7 @@ cc_library(
 
 cc_library(
     name = "util",
+    srcs = ["util.cc"],
     hdrs = ["util.h"],
     deps = ["@com_google_absl//absl/status"],
 )

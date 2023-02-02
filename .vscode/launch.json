@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Test: keysym_experiment (dbg)",
+            "name": "Example: keysym_experiment (dbg)",
             "preLaunchTask": "Build keysym_experiment (debug)",
             "type": "cppdbg",
             "request": "launch",
@@ -15,12 +15,22 @@
             "args": [],
         },
         {
-            "name": "Test: keysym_experiment_x11 (dbg)",
+            "name": "Example: keysym_experiment_x11 (dbg)",
             "preLaunchTask": "Build keysym_experiment_x11 (debug)",
             "type": "cppdbg",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "program": "${workspaceRoot}/bazel-bin/actions/examples/keysym_experiment_x11",
+            "environment": [],
+            "args": [],
+        },
+        {
+            "name": "Example: actions_keystroke (dbg)",
+            "preLaunchTask": "Build actions_keystroke (debug)",
+            "type": "cppdbg",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceRoot}/bazel-bin/actions/examples/actions_keystroke",
             "environment": [],
             "args": [],
         },

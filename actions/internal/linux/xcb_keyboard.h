@@ -18,15 +18,6 @@ class XcbKeyboard {
    private:
     xcb_connection_t* conn;
     xcb_key_symbols_t* key_symbols;
-    // std::map<action::KeyModifier, xcb_keycode_t> modifier_map;
-    // std::map<char, xcb_keycode_t> keycode_map;
-
-    // std::future<absl::Status> LoadModifierMap() noexcept;
-    // std::future<absl::Status> LoadKeycodeMap() noexcept;
-
-    // std::future<absl::Status> SetModifiers(
-    //     bool press, const std::unordered_set<action::KeyModifier>& modifiers,
-    //     xcb_window_t root) noexcept;
 
     std::future<absl::Status> SendKey(bool press, xcb_keysym_t key,
                                       xcb_window_t root) noexcept;

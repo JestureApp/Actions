@@ -2,6 +2,7 @@
 #define ACTIONS_ACTION_KEYSTROKE_H
 
 #include <unordered_set>
+#include <vector>
 
 #if defined(__linux__)
 #include "actions/internal/linux/keystroke.h"
@@ -21,7 +22,7 @@ absl::StatusOr<std::unordered_set<Key> > ParseKeystroke(std::string) noexcept {
 
 /// @brief Represents a keystroke. A collection of keys with associated
 /// modifiers.
-using Keystroke = std::unordered_set<Key>;
+using Keystroke = std::vector<Key>;
 
 }  // namespace actions::action
 

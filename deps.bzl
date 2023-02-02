@@ -20,6 +20,11 @@ deps_remote_repositories = {
         "url": "https://github.com/google/googletest/archive/refs/tags/release-1.12.1.tar.gz",
         "strip_prefix": "googletest-release-1.12.1",
     },
+    "com_github_gflags_gflags": {
+        "url": "https://github.com/gflags/gflags/archive/v2.2.2.tar.gz",
+        "sha256": "34af2f15cf7367513b352bdcd2493ab14ce43692d2dcd9dfc499492966c64dcf",
+        "strip_prefix": "gflags-2.2.2",
+    },
 }
 
 def actions_repositiories():

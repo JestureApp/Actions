@@ -7,8 +7,7 @@ namespace actions::action {
 
 namespace target {
 /// @brief Indicates that the target of an action is the focused window.
-typedef struct {
-} Focused;
+class Focused {};
 }  // namespace target
 
 /// @brief The target of an action
