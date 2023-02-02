@@ -8,6 +8,7 @@ cc_library(
         "@com_google_absl//absl/types:variant",
     ] + select({
         "@platforms//os:linux": ["//actions/internal/linux:keystroke"],
+        "//conditions:default": [],
     }),
 )
 
