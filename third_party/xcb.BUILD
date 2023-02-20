@@ -13,5 +13,6 @@ cc_library(
         "-l:libxcb-xtest.so",
         "-l:libxcb.so",
     ],
+    target_compatible_with = ["@platforms//os:linux"],
     visibility = ["//visibility:public"],
 )
