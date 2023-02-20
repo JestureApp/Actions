@@ -34,7 +34,7 @@ cc_library(
     srcs = ["xcb_error.cc"],
     hdrs = ["xcb_error.h"],
     deps = [
-        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:status",
         "@xcb",
     ],
 )
