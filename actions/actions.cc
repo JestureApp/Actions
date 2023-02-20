@@ -12,7 +12,6 @@
 #endif
 
 namespace actions {
-
 absl::StatusOr<Actions> Actions::Create(
     std::unique_ptr<internal::Connection> conn) noexcept {
     return Actions(std::move(conn));
