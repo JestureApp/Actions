@@ -1,7 +1,8 @@
 #include "actions/internal/linux/xcb_error.h"
 
-#include <absl/status/status.h>
 #include <xcb/xcb.h>
+
+#include "absl/status/status.h"
 
 namespace actions::internal::linux {
 absl::Status XcbStatus(int code) noexcept {

@@ -6,6 +6,7 @@ cc_library(
     hdrs = ["keystroke.h"],
     deps = [
         "@com_google_absl//absl/types:variant",
+        "@com_google_absl//absl/status",
     ] + select({
         "@platforms//os:linux": ["//actions/internal/linux:keystroke"],
         "//conditions:default": [],

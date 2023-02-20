@@ -22,9 +22,7 @@ class Actions {
     static absl::StatusOr<Actions> Create(
         std::unique_ptr<internal::Connection> conn) noexcept;
 
-#if defined(__linux)
     static absl::StatusOr<Actions> Create() noexcept;
-#endif
 
     Actions(Actions&) = delete;
     Actions& operator=(Actions&) = delete;
