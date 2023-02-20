@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "absl/status/status.h"
+#include "absl/status/statusor.h"
 
 #if defined(__linux__)
 #include "actions/internal/linux/keystroke.h"
