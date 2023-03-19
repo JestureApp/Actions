@@ -15,13 +15,11 @@ namespace actions::action {
 
 #if defined(__linux__)
 using internal::linux::Key;
-using internal::linux::ParseKeystroke;
 #else
 using Key = unsigned int;
-absl::StatusOr<std::vector<Key> > ParseKeystroke(std::string) noexcept {
-    return std::vector<Key>();
-}
 #endif
+
+absl::StatusOr<std::vector<Key> > ParseKeystroke(std::string) noexcept;
 
 /// @brief Represents a keystroke. A collection of keys with associated
 /// modifiers.
