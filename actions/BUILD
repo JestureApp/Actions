@@ -5,6 +5,7 @@ cc_library(
     hdrs = ["action.h"],
     deps = [
         "//actions/action:keystroke",
+        "//actions/action:mouse",
         "//actions/action:target",
         "@com_google_absl//absl/types:variant",
     ],

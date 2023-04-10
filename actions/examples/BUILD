@@ -10,3 +10,23 @@ cc_binary(
         "@com_google_absl//absl/status",
     ],
 )
+
+cc_binary(
+    name = "actions_mouse",
+    srcs = ["actions_mouse.cc"],
+    deps = [
+        "//actions",
+        "//actions:action",
+        "@com_google_absl//absl/status",
+    ],
+)
+
+cc_binary(
+    name = "actions_hybrid",
+    srcs = ["actions_hybrid.cc"],
+    deps = [
+        "//actions",
+        "//actions:action",
+        "@com_google_absl//absl/status",
+    ],
+)

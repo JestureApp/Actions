@@ -23,7 +23,19 @@ absl::StatusOr<std::vector<Key> > ParseKeystroke(std::string) noexcept;
 
 /// @brief Represents a keystroke. A collection of keys with associated
 /// modifiers.
-using Keystroke = std::vector<Key>;
+using KeySequence = std::vector<Key>;
+
+typedef struct Keystroke {
+    KeySequence sequence;
+} Keystroke;
+
+typedef struct KeysPress {
+    KeySequence sequence;
+} KeysPress;
+
+typedef struct KeysRelease {
+    KeySequence sequence;
+} KeysRelease;
 
 }  // namespace actions::action
 

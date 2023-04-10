@@ -19,6 +19,11 @@ cc_library(
 )
 
 cc_library(
+    name = "mouse",
+    hdrs = ["mouse.h"],
+)
+
+cc_library(
     name = "target",
     hdrs = ["target.h"],
     deps = [

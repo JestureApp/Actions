@@ -18,8 +18,32 @@ class Connection {
     /// @param target The target of the keystroke.
     /// @return A future which resolves to an ok status if the keystroke was
     /// successfully sent, or an error status otherwise.
-    virtual std::future<absl::Status> SendKeystroke(
+    virtual std::future<absl::Status> Keystroke(
         const action::Keystroke& keystroke,
+        const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> KeysPress(
+        const action::KeysPress& keys_press,
+        const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> KeysRelease(
+        const action::KeysRelease& keys_release,
+        const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> MoveCursor(
+        const action::CursorMove& cursor_move,
+        const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> MousePress(
+        const action::MousePress& mouse_press,
+        const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> MouseRelease(
+        const action::MouseRelease& mouse_release,
+        const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> MouseClick(
+        const action::MouseClick& mouse_click,
         const action::Target& target) noexcept = 0;
 };
 
