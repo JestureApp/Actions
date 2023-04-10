@@ -12,7 +12,7 @@ absl::Status run() {
     if (!actions.ok()) return actions.status();
 
     return actions
-        ->Perform(action::CursorMove{.x = 0.5, .y = 0.5},
+        ->Perform(action::CursorMove{.x = 0.1, .y = 0.1},
                   action::target::Focused())
         .get();
 }

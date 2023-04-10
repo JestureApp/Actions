@@ -119,6 +119,18 @@ std::future<absl::Status> XcbConnection::MoveCursor(
     xcb_window_t dest_window = screen->root;
 
     return std::async(std::launch::deferred, [=]() {
+        int16_t src_x = 0;
+        int16_t src_y = 0;
+
+        if (cursor_move.relative) {
+            auto pointer_loc = QueryPointer().get();
+
+            if (!pointer_loc.ok()) return pointer_loc.status();
+
+            src_x = pointer_loc.value()->root_x;
+            src_y = pointer_loc.value()->root_y;
+        }
+
         auto geometry = GetWindowGeometry(dest_window).get();
 
         if (!geometry.ok()) return geometry.status();
@@ -126,11 +138,8 @@ std::future<absl::Status> XcbConnection::MoveCursor(
         auto dest_width = geometry.value()->width;
         auto dest_height = geometry.value()->height;
 
-        std::cout << "width = " << dest_width << std::endl;
-        std::cout << "height = " << dest_height << std::endl;
-
-        auto x = cursor_move.x * dest_width;
-        auto y = cursor_move.y * dest_height;
+        auto x = cursor_move.x * dest_width + src_x;
+        auto y = cursor_move.y * dest_height + src_y;
 
         xcb_void_cookie_t cookie = xcb_warp_pointer_checked(
             conn, XCB_NONE, dest_window, 0, 0, 0, 0, x, y);
@@ -161,6 +170,15 @@ XcbConnection::GetWindowGeometry(xcb_window_t window) {
 
     return ResolveReply<xcb_get_geometry_reply_t, xcb_get_geometry_cookie_t>(
         cookie, xcb_get_geometry_reply);
+}
+
+std::future<XcbReply<xcb_query_pointer_reply_t>> XcbConnection::QueryPointer() {
+    xcb_query_pointer_cookie_t cookie = xcb_query_pointer(conn, screen->root);
+
+    xcb_flush(conn);
+
+    return ResolveReply<xcb_query_pointer_reply_t, xcb_query_pointer_cookie_t>(
+        cookie, xcb_query_pointer_reply);
 }
 
 std::future<absl::Status> XcbConnection::CheckCookie(xcb_void_cookie_t cookie) {

@@ -49,6 +49,8 @@ class XcbConnection : public Connection {
     std::future<XcbReply<xcb_get_geometry_reply_t>> GetWindowGeometry(
         xcb_window_t window);
 
+    std::future<XcbReply<xcb_query_pointer_reply_t>> QueryPointer();
+
     template <typename T, typename Cookie>
     std::future<XcbReply<T>> ResolveReply(
         Cookie cookie,

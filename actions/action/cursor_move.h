@@ -6,6 +6,7 @@ namespace actions::action {
 typedef struct CursorMove {
     double x;
     double y;
+    bool relative = true;
 } CursorMove;
 
 }  // namespace actions::action
