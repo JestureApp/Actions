@@ -38,7 +38,3 @@ hedron_compile_commands_setup()
 load("//:repositories.bzl", "actions_repositories")
 
 actions_repositories()
-
-load("//:setup.bzl", "actions_setup")
-
-actions_setup()
