@@ -8,9 +8,12 @@
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "actions/internal/connection.h"
+#include "actions/internal/x11/xcb_error.h"
 #include "actions/internal/x11/xcb_keyboard.h"
 
 namespace actions::internal::x11 {
+template <typename T>
+using XcbReply = absl::StatusOr<T*>;
 
 class XcbConnection : public Connection {
    private:
@@ -34,8 +37,39 @@ class XcbConnection : public Connection {
     std::future<absl::Status> SendKeystroke(
         const action::Keystroke& keystroke,
         const action::Target& target) noexcept override;
-};
 
+    std::future<absl::Status> MoveCursor(
+        const action::CursorMove& cursor_move,
+        const action::Target& target) noexcept override;
+
+   private:
+    std::future<XcbReply<xcb_get_window_attributes_reply_t>>
+    GetWindowAttributes(xcb_window_t window);
+
+    std::future<XcbReply<xcb_get_geometry_reply_t>> GetWindowGeometry(
+        xcb_window_t window);
+
+    template <typename T, typename Cookie>
+    std::future<XcbReply<T>> ResolveReply(
+        Cookie cookie,
+        std::function<T*(xcb_connection_t*, Cookie, xcb_generic_error_t**)>
+            reply_getter) {
+        return std::async(std::launch::deferred,
+                          [this, cookie, reply_getter]() -> XcbReply<T> {
+                              xcb_generic_error_t* error;
+
+                              T* reply = reply_getter(conn, cookie, &error);
+
+                              if (error) {
+                                  return XcbErrorToStatus(conn, error);
+                              }
+
+                              return reply;
+                          });
+    }
+
+    std::future<absl::Status> CheckCookie(xcb_void_cookie_t cookie);
+};
 }  // namespace actions::internal::x11
 
 #endif  // ACTIONS_INTERNAL_X11_XCB_CONNECTION_H

@@ -47,8 +47,13 @@ std::future<absl::Status> Actions::Perform(
     if (absl::holds_alternative<action::Keystroke>(action)) {
         return conn->SendKeystroke(absl::get<action::Keystroke>(action),
                                    target);
+    } else if (absl::holds_alternative<action::CursorMove>(action)) {
+        return conn->MoveCursor(absl::get<action::CursorMove>(action), target);
+    } else if (absl::holds_alternative<action::NoOp>(action)) {
+        return internal::util::Resolve(absl::OkStatus());
     }
 
+    // Should be unreachable, but you can never be too careful
     return internal::util::Resolve(
         absl::UnimplementedError("Not Implemented."));
 }

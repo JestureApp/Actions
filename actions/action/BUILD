@@ -19,6 +19,11 @@ cc_library(
 )
 
 cc_library(
+    name = "cursor_move",
+    hdrs = ["cursor_move.h"],
+)
+
+cc_library(
     name = "target",
     hdrs = ["target.h"],
     deps = [

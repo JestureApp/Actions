@@ -21,6 +21,10 @@ class Connection {
     virtual std::future<absl::Status> SendKeystroke(
         const action::Keystroke& keystroke,
         const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> MoveCursor(
+        const action::CursorMove& cursor_move,
+        const action::Target& target) noexcept = 0;
 };
 
 }  // namespace actions::internal

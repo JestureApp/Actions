@@ -15,6 +15,10 @@ class StubConnection : public Connection {
     std::future<absl::Status> SendKeystroke(
         const action::Keystroke& keystroke,
         const action::Target& target) noexcept override;
+
+    std::future<absl::Status> MoveCursor(
+        const action::CursorMove& cursor_move,
+        const action::Target& target) noexcept override;
 };
 }  // namespace actions::internal::stub
 

@@ -17,4 +17,10 @@ std::future<absl::Status> StubConnection::SendKeystroke(
     return util::Resolve(absl::OkStatus());
 }
 
+std::future<absl::Status> StubConnection::MoveCursor(
+    const action::CursorMove& cursor_move,
+    const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
 }  // namespace actions::internal::stub

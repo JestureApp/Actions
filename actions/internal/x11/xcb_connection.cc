@@ -1,6 +1,7 @@
 #include "actions/internal/x11/xcb_connection.h"
 
 #include <xcb/xcb.h>
+#include <xcb/xproto.h>
 #include <xcb/xtest.h>
 
 #include <future>
@@ -109,4 +110,69 @@ std::future<absl::Status> XcbConnection::SendKeystroke(
 
     return keyboard.SendKeystrokes(keystroke, root);
 }
+
+std::future<absl::Status> XcbConnection::MoveCursor(
+    const action::CursorMove& cursor_move,
+    const action::Target& target) noexcept {
+    // TODO: get size of window to properly scale coordinates
+
+    xcb_window_t dest_window = screen->root;
+
+    return std::async(std::launch::deferred, [=]() {
+        auto geometry = GetWindowGeometry(dest_window).get();
+
+        if (!geometry.ok()) return geometry.status();
+
+        auto dest_width = geometry.value()->width;
+        auto dest_height = geometry.value()->height;
+
+        std::cout << "width = " << dest_width << std::endl;
+        std::cout << "height = " << dest_height << std::endl;
+
+        auto x = cursor_move.x * dest_width;
+        auto y = cursor_move.y * dest_height;
+
+        xcb_void_cookie_t cookie = xcb_warp_pointer_checked(
+            conn, XCB_NONE, dest_window, 0, 0, 0, 0, x, y);
+
+        xcb_flush(conn);
+
+        return CheckCookie(cookie).get();
+    });
+}
+
+std::future<XcbReply<xcb_get_window_attributes_reply_t>>
+XcbConnection::GetWindowAttributes(xcb_window_t window) {
+    xcb_get_window_attributes_cookie_t cookie =
+        xcb_get_window_attributes(conn, window);
+
+    xcb_flush(conn);
+
+    return ResolveReply<xcb_get_window_attributes_reply_t,
+                        xcb_get_window_attributes_cookie_t>(
+        cookie, xcb_get_window_attributes_reply);
+}
+
+std::future<XcbReply<xcb_get_geometry_reply_t>>
+XcbConnection::GetWindowGeometry(xcb_window_t window) {
+    xcb_get_geometry_cookie_t cookie = xcb_get_geometry(conn, window);
+
+    xcb_flush(conn);
+
+    return ResolveReply<xcb_get_geometry_reply_t, xcb_get_geometry_cookie_t>(
+        cookie, xcb_get_geometry_reply);
+}
+
+std::future<absl::Status> XcbConnection::CheckCookie(xcb_void_cookie_t cookie) {
+    return std::async(std::launch::deferred, [this, cookie]() {
+        xcb_generic_error_t* error = xcb_request_check(conn, cookie);
+
+        if (error) {
+            return XcbErrorToStatus(conn, error);
+        }
+
+        return absl::OkStatus();
+    });
+}
+
 }  // namespace actions::internal::x11

@@ -10,3 +10,13 @@ cc_binary(
         "@com_google_absl//absl/status",
     ],
 )
+
+cc_binary(
+    name = "actions_cursor",
+    srcs = ["actions_cursor.cc"],
+    deps = [
+        "//actions",
+        "//actions:action",
+        "@com_google_absl//absl/status",
+    ],
+)
