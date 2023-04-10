@@ -12,8 +12,8 @@ cc_binary(
 )
 
 cc_binary(
-    name = "actions_cursor",
-    srcs = ["actions_cursor.cc"],
+    name = "actions_mouse",
+    srcs = ["actions_mouse.cc"],
     deps = [
         "//actions",
         "//actions:action",

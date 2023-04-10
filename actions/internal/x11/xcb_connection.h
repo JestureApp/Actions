@@ -42,6 +42,18 @@ class XcbConnection : public Connection {
         const action::CursorMove& cursor_move,
         const action::Target& target) noexcept override;
 
+    std::future<absl::Status> MousePress(
+        const action::MousePress& mouse_press,
+        const action::Target& target) noexcept override;
+
+    std::future<absl::Status> MouseRelease(
+        const action::MouseRelease& mouse_release,
+        const action::Target& target) noexcept override;
+
+    std::future<absl::Status> MouseClick(
+        const action::MouseClick& mouse_click,
+        const action::Target& target) noexcept override;
+
    private:
     std::future<XcbReply<xcb_get_window_attributes_reply_t>>
     GetWindowAttributes(xcb_window_t window);
@@ -69,6 +81,13 @@ class XcbConnection : public Connection {
                               return reply;
                           });
     }
+
+    std::future<absl::Status> SendMouseClick(xcb_button_index_t button);
+
+    std::future<absl::Status> SendMouseInput(xcb_button_index_t button,
+                                             bool press);
+
+    std::future<absl::Status> SendFakeInput(uint8_t type, uint8_t detail);
 
     std::future<absl::Status> CheckCookie(xcb_void_cookie_t cookie);
 };

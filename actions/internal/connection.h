@@ -25,6 +25,18 @@ class Connection {
     virtual std::future<absl::Status> MoveCursor(
         const action::CursorMove& cursor_move,
         const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> MousePress(
+        const action::MousePress& mouse_press,
+        const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> MouseRelease(
+        const action::MouseRelease& mouse_release,
+        const action::Target& target) noexcept = 0;
+
+    virtual std::future<absl::Status> MouseClick(
+        const action::MouseClick& mouse_click,
+        const action::Target& target) noexcept = 0;
 };
 
 }  // namespace actions::internal

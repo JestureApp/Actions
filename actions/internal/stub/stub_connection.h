@@ -19,6 +19,18 @@ class StubConnection : public Connection {
     std::future<absl::Status> MoveCursor(
         const action::CursorMove& cursor_move,
         const action::Target& target) noexcept override;
+
+    std::future<absl::Status> MousePress(
+        const action::MousePress& mouse_press,
+        const action::Target& target) noexcept override;
+
+    std::future<absl::Status> MouseRelease(
+        const action::MouseRelease& mouse_release,
+        const action::Target& target) noexcept override;
+
+    std::future<absl::Status> MouseClick(
+        const action::MouseClick& mouse_click,
+        const action::Target& target) noexcept override;
 };
 }  // namespace actions::internal::stub
 

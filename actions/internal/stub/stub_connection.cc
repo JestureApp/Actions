@@ -23,4 +23,22 @@ std::future<absl::Status> StubConnection::MoveCursor(
     return util::Resolve(absl::OkStatus());
 }
 
+std::future<absl::Status> StubConnection::MousePress(
+    const action::MousePress& mouse_press,
+    const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
+std::future<absl::Status> StubConnection::MouseRelease(
+    const action::MouseRelease& mouse_release,
+    const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
+std::future<absl::Status> StubConnection::MouseClick(
+    const action::MouseClick& mouse_click,
+    const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
 }  // namespace actions::internal::stub

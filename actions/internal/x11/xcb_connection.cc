@@ -116,7 +116,13 @@ std::future<absl::Status> XcbConnection::MoveCursor(
     const action::Target& target) noexcept {
     // TODO: get size of window to properly scale coordinates
 
-    xcb_window_t dest_window = screen->root;
+    xcb_window_t dest_window;
+
+    if (absl::holds_alternative<action::target::Focused>(target)) {
+        dest_window = screen->root;
+    } else {
+        return util::Resolve(absl::UnimplementedError("Not Implemented."));
+    }
 
     return std::async(std::launch::deferred, [=]() {
         int16_t src_x = 0;
@@ -150,6 +156,72 @@ std::future<absl::Status> XcbConnection::MoveCursor(
     });
 }
 
+std::future<absl::Status> XcbConnection::MousePress(
+    const action::MousePress& mouse_press,
+    const action::Target& _target) noexcept {
+    xcb_button_index_t button;
+
+    switch (mouse_press) {
+        case action::MousePress::LeftPress:
+            button = XCB_BUTTON_INDEX_1;
+            break;
+        case action::MousePress::RightPress:
+            button = XCB_BUTTON_INDEX_2;
+            break;
+        case action::MousePress::MiddlePress:
+            button = XCB_BUTTON_INDEX_3;
+            break;
+        default:
+            return util::Resolve(absl::UnimplementedError("Not implemented"));
+    }
+
+    return SendMouseInput(button, true);
+}
+
+std::future<absl::Status> XcbConnection::MouseRelease(
+    const action::MouseRelease& mouse_release,
+    const action::Target& target) noexcept {
+    xcb_button_index_t button;
+
+    switch (mouse_release) {
+        case action::MouseRelease::LeftRelease:
+            button = XCB_BUTTON_INDEX_1;
+            break;
+        case action::MouseRelease::RightRelease:
+            button = XCB_BUTTON_INDEX_2;
+            break;
+        case action::MouseRelease::MiddleRelease:
+            button = XCB_BUTTON_INDEX_3;
+            break;
+        default:
+            return util::Resolve(absl::UnimplementedError("Not implemented"));
+    }
+
+    return SendMouseInput(button, false);
+}
+
+std::future<absl::Status> XcbConnection::MouseClick(
+    const action::MouseClick& mouse_click,
+    const action::Target& target) noexcept {
+    xcb_button_index_t button;
+
+    switch (mouse_click) {
+        case action::MouseClick::LeftClick:
+            button = XCB_BUTTON_INDEX_1;
+            break;
+        case action::MouseClick::RightClick:
+            button = XCB_BUTTON_INDEX_2;
+            break;
+        case action::MouseClick::MiddleClick:
+            button = XCB_BUTTON_INDEX_3;
+            break;
+        default:
+            return util::Resolve(absl::UnimplementedError("Not implemented"));
+    }
+
+    return SendMouseClick(button);
+}
+
 std::future<XcbReply<xcb_get_window_attributes_reply_t>>
 XcbConnection::GetWindowAttributes(xcb_window_t window) {
     xcb_get_window_attributes_cookie_t cookie =
@@ -179,6 +251,32 @@ std::future<XcbReply<xcb_query_pointer_reply_t>> XcbConnection::QueryPointer() {
 
     return ResolveReply<xcb_query_pointer_reply_t, xcb_query_pointer_cookie_t>(
         cookie, xcb_query_pointer_reply);
+}
+
+std::future<absl::Status> XcbConnection::SendMouseClick(
+    xcb_button_index_t button) {
+    return std::async(std::launch::deferred, [=]() {
+        auto status = SendMouseInput(button, true).get();
+
+        if (!status.ok()) return status;
+
+        return SendMouseInput(button, false).get();
+    });
+}
+
+std::future<absl::Status> XcbConnection::SendMouseInput(
+    xcb_button_index_t button, bool press) {
+    return SendFakeInput(press ? XCB_BUTTON_PRESS : XCB_BUTTON_RELEASE, button);
+}
+
+std::future<absl::Status> XcbConnection::SendFakeInput(uint8_t type,
+                                                       uint8_t detail) {
+    xcb_void_cookie_t cookie = xcb_test_fake_input_checked(
+        conn, type, detail, 0, screen->root, 0, 0, 0);
+
+    xcb_flush(conn);
+
+    return CheckCookie(cookie);
 }
 
 std::future<absl::Status> XcbConnection::CheckCookie(xcb_void_cookie_t cookie) {

@@ -49,6 +49,13 @@ std::future<absl::Status> Actions::Perform(
                                    target);
     } else if (absl::holds_alternative<action::CursorMove>(action)) {
         return conn->MoveCursor(absl::get<action::CursorMove>(action), target);
+    } else if (absl::holds_alternative<action::MousePress>(action)) {
+        return conn->MousePress(absl::get<action::MousePress>(action), target);
+    } else if (absl::holds_alternative<action::MouseRelease>(action)) {
+        return conn->MouseRelease(absl::get<action::MouseRelease>(action),
+                                  target);
+    } else if (absl::holds_alternative<action::MouseClick>(action)) {
+        return conn->MouseClick(absl::get<action::MouseClick>(action), target);
     } else if (absl::holds_alternative<action::NoOp>(action)) {
         return internal::util::Resolve(absl::OkStatus());
     }

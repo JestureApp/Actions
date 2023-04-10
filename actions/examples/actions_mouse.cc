@@ -11,9 +11,15 @@ absl::Status run() {
 
     if (!actions.ok()) return actions.status();
 
+    absl::Status status = actions
+                              ->Perform(action::CursorMove{.x = 0.1, .y = 0.1},
+                                        action::target::Focused())
+                              .get();
+
+    if (!status.ok()) return status;
+
     return actions
-        ->Perform(action::CursorMove{.x = 0.1, .y = 0.1},
-                  action::target::Focused())
+        ->Perform(action::MouseClick::LeftClick, action::target::Focused())
         .get();
 }
 
