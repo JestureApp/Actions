@@ -1,4 +1,4 @@
-#include "actions/internal/linux/keystroke.h"
+#include "actions/internal/x11/keystroke.h"
 
 #include <X11/Xlib.h>
 
@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace actions::internal::linux {
+namespace actions::internal::x11 {
 const static std::map<std::string, std::string> symbol_map{
     {"alt", "Alt_L"},
     {"ctrl", "Control_L"},
@@ -44,4 +44,4 @@ absl::StatusOr<std::vector<Key>> ParseKeystroke(std::string str) noexcept {
 
     return keys;
 }
-}  // namespace actions::internal::linux
+}  // namespace actions::internal::x11

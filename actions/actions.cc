@@ -5,8 +5,8 @@
 #include "actions/internal/connection.h"
 #include "actions/internal/util.h"
 
-#if defined(__linux)
-#include "actions/internal/linux/xcb_connection.h"
+#if defined(__x11__)
+#include "actions/internal/x11/xcb_connection.h"
 #else
 #include "actions/internal/stub/stub_connection.h"
 #endif
@@ -18,8 +18,8 @@ absl::StatusOr<Actions> Actions::Create(
 }
 
 absl::StatusOr<Actions> Actions::Create() noexcept {
-#if defined(__linux)
-    auto conn = internal::linux::XcbConnection::Create();
+#if defined(__x11__)
+    auto conn = internal::x11::XcbConnection::Create();
 #else
     auto conn = internal::stub::StubConnection::Create();
 #endif

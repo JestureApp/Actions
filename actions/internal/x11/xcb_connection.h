@@ -1,5 +1,5 @@
-#ifndef ACTIONS_INTERNAL_LINUX_XCB_CONNECTION_H
-#define ACTIONS_INTERNAL_LINUX_XCB_CONNECTION_H
+#ifndef ACTIONS_INTERNAL_X11_XCB_CONNECTION_H
+#define ACTIONS_INTERNAL_X11_XCB_CONNECTION_H
 
 #include <xcb/xcb.h>
 
@@ -8,9 +8,9 @@
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "actions/internal/connection.h"
-#include "actions/internal/linux/xcb_keyboard.h"
+#include "actions/internal/x11/xcb_keyboard.h"
 
-namespace actions::internal::linux {
+namespace actions::internal::x11 {
 
 class XcbConnection : public Connection {
    private:
@@ -36,6 +36,6 @@ class XcbConnection : public Connection {
         const action::Target& target) noexcept override;
 };
 
-}  // namespace actions::internal::linux
+}  // namespace actions::internal::x11
 
-#endif  // ACTIONS_INTERNAL_LINUX_XCB_CONNECTION_H
+#endif  // ACTIONS_INTERNAL_X11_XCB_CONNECTION_H

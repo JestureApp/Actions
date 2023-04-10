@@ -2,8 +2,8 @@
 
 namespace actions::action {
 absl::StatusOr<std::vector<Key> > ParseKeystroke(std::string str) noexcept {
-#if defined(__linux__)
-    return internal::linux::ParseKeystroke(str);
+#if defined(__x11__)
+    return internal::x11::ParseKeystroke(str);
 #else
     return std::vector<Key>();
 #endif

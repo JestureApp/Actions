@@ -38,3 +38,11 @@ hedron_compile_commands_setup()
 load("//:repositories.bzl", "actions_repositories")
 
 actions_repositories()
+
+load("@actions//display:display_configure.bzl", "display_configure")
+
+display_configure()
+
+load("@display//:local_display.bzl", "display_repositories")
+
+display_repositories()
