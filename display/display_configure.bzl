@@ -10,12 +10,22 @@ _x11_install_paths = {
         "include": "include/X11",
         "lib": "lib",
     },
+    "xquartz": {
+        "path": "/usr/X11",
+        "include": "include",
+        "lib": "lib",
+    },
 }
 
 _xcb_install_paths = {
     "default": {
         "path": "/usr",
         "include": "include/xcb",
+        "lib": "lib",
+    },
+    "xquartz": {
+        "path": "/usr/xcb",
+        "include": "include",
         "lib": "lib",
     },
 }
