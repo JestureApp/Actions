@@ -98,7 +98,7 @@ XcbConnection& XcbConnection::operator=(XcbConnection&& other) noexcept {
     return *this;
 }
 
-std::future<absl::Status> XcbConnection::SendKeystroke(
+std::future<absl::Status> XcbConnection::Keystroke(
     const action::Keystroke& keystroke, const action::Target& target) noexcept {
     xcb_window_t root;
 
@@ -108,7 +108,35 @@ std::future<absl::Status> XcbConnection::SendKeystroke(
         return util::Resolve(absl::UnimplementedError("Not Implemented."));
     }
 
-    return keyboard.SendKeystrokes(keystroke, root);
+    return keyboard.Keystroke(keystroke, root);
+}
+
+std::future<absl::Status> XcbConnection::KeysPress(
+    const action::KeysPress& keys_press,
+    const action::Target& target) noexcept {
+    xcb_window_t root;
+
+    if (absl::holds_alternative<action::target::Focused>(target)) {
+        root = screen->root;
+    } else {
+        return util::Resolve(absl::UnimplementedError("Not Implemented."));
+    }
+
+    return keyboard.KeysPress(keys_press, root);
+}
+
+std::future<absl::Status> XcbConnection::KeysRelease(
+    const action::KeysRelease& keys_release,
+    const action::Target& target) noexcept {
+    xcb_window_t root;
+
+    if (absl::holds_alternative<action::target::Focused>(target)) {
+        root = screen->root;
+    } else {
+        return util::Resolve(absl::UnimplementedError("Not Implemented."));
+    }
+
+    return keyboard.KeysRelease(keys_release, root);
 }
 
 std::future<absl::Status> XcbConnection::MoveCursor(

@@ -41,16 +41,55 @@ XcbKeyboard& XcbKeyboard::operator=(XcbKeyboard&& other) noexcept {
     return *this;
 }
 
-std::future<absl::Status> XcbKeyboard::SendKeystrokes(
+std::future<absl::Status> XcbKeyboard::Keystroke(
     const action::Keystroke& keystroke, xcb_window_t root) noexcept {
-    std::vector<std::future<absl::Status>> futures;
-    futures.reserve(keystroke.size() * 2);
+    return SendKeysClick(keystroke.sequence, root);
+}
 
-    for (xcb_keysym_t key : keystroke) {
+std::future<absl::Status> XcbKeyboard::KeysPress(
+    const action::KeysPress& keys_press, xcb_window_t root) noexcept {
+    return SendKeysPress(keys_press.sequence, root);
+}
+
+std::future<absl::Status> XcbKeyboard::KeysRelease(
+    const action::KeysRelease& keys_release, xcb_window_t root) noexcept {
+    return SendKeysRelease(keys_release.sequence, root);
+}
+
+std::future<absl::Status> XcbKeyboard::SendKeysClick(
+    const action::KeySequence& keysequence, xcb_window_t root) noexcept {
+    std::vector<std::future<absl::Status>> futures;
+    futures.reserve(keysequence.size());
+
+    for (xcb_keysym_t key : keysequence) {
         futures.push_back(SendKey(true, key, root));
     }
 
-    for (xcb_keysym_t key : keystroke) {
+    for (xcb_keysym_t key : keysequence) {
+        futures.push_back(SendKey(false, key, root));
+    }
+
+    return util::AllOk(std::move(futures));
+}
+
+std::future<absl::Status> XcbKeyboard::SendKeysPress(
+    const action::KeySequence& keysequence, xcb_window_t root) noexcept {
+    std::vector<std::future<absl::Status>> futures;
+    futures.reserve(keysequence.size());
+
+    for (xcb_keysym_t key : keysequence) {
+        futures.push_back(SendKey(false, key, root));
+    }
+
+    return util::AllOk(std::move(futures));
+}
+
+std::future<absl::Status> XcbKeyboard::SendKeysRelease(
+    const action::KeySequence& keysequence, xcb_window_t root) noexcept {
+    std::vector<std::future<absl::Status>> futures;
+    futures.reserve(keysequence.size());
+
+    for (xcb_keysym_t key : keysequence) {
         futures.push_back(SendKey(false, key, root));
     }
 

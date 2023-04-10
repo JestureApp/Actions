@@ -15,8 +15,9 @@ typedef struct NoOp {
 }  // namespace action
 
 using Action =
-    absl::variant<action::Keystroke, action::CursorMove, action::MouseClick,
-                  action::MousePress, action::MouseRelease, action::NoOp>;
+    absl::variant<action::Keystroke, action::KeysPress, action::KeysRelease,
+                  action::CursorMove, action::MouseClick, action::MousePress,
+                  action::MouseRelease, action::NoOp>;
 
 }  // namespace actions
 

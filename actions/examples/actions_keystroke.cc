@@ -15,11 +15,14 @@ absl::Status run() {
 
     if (!actions.ok()) return actions.status();
 
-    auto keystroke = action::ParseKeystroke(FLAGS_keystroke.CurrentValue());
+    auto keysequence = action::ParseKeystroke(FLAGS_keystroke.CurrentValue());
 
-    if (!keystroke.ok()) return keystroke.status();
+    if (!keysequence.ok()) return keysequence.status();
 
-    return actions->Perform(keystroke.value(), action::target::Focused()).get();
+    return actions
+        ->Perform(action::Keystroke{keysequence.value()},
+                  action::target::Focused())
+        .get();
 }
 
 int main(int argc, char** argv) {

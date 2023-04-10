@@ -45,8 +45,12 @@ Actions& Actions::operator=(Actions&& other) noexcept {
 std::future<absl::Status> Actions::Perform(
     const Action& action, const action::Target& target) noexcept {
     if (absl::holds_alternative<action::Keystroke>(action)) {
-        return conn->SendKeystroke(absl::get<action::Keystroke>(action),
-                                   target);
+        return conn->Keystroke(absl::get<action::Keystroke>(action), target);
+    } else if (absl::holds_alternative<action::KeysPress>(action)) {
+        return conn->KeysPress(absl::get<action::KeysPress>(action), target);
+    } else if (absl::holds_alternative<action::KeysRelease>(action)) {
+        return conn->KeysRelease(absl::get<action::KeysRelease>(action),
+                                 target);
     } else if (absl::holds_alternative<action::CursorMove>(action)) {
         return conn->MoveCursor(absl::get<action::CursorMove>(action), target);
     } else if (absl::holds_alternative<action::MousePress>(action)) {

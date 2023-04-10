@@ -34,8 +34,16 @@ class XcbConnection : public Connection {
     XcbConnection(XcbConnection&&) noexcept;
     XcbConnection& operator=(XcbConnection&&) noexcept;
 
-    std::future<absl::Status> SendKeystroke(
+    std::future<absl::Status> Keystroke(
         const action::Keystroke& keystroke,
+        const action::Target& target) noexcept override;
+
+    std::future<absl::Status> KeysPress(
+        const action::KeysPress& keys_press,
+        const action::Target& target) noexcept override;
+
+    std::future<absl::Status> KeysRelease(
+        const action::KeysRelease& keys_release,
         const action::Target& target) noexcept override;
 
     std::future<absl::Status> MoveCursor(
