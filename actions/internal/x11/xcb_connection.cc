@@ -1,4 +1,4 @@
-#include "actions/internal/linux/xcb_connection.h"
+#include "actions/internal/x11/xcb_connection.h"
 
 #include <xcb/xcb.h>
 #include <xcb/xtest.h>
@@ -7,11 +7,11 @@
 
 #include "absl/status/status.h"
 #include "absl/types/variant.h"
-#include "actions/internal/linux/xcb_error.h"
-#include "actions/internal/linux/xcb_keyboard.h"
 #include "actions/internal/util.h"
+#include "actions/internal/x11/xcb_error.h"
+#include "actions/internal/x11/xcb_keyboard.h"
 
-namespace actions::internal::linux {
+namespace actions::internal::x11 {
 absl::StatusOr<std::unique_ptr<XcbConnection>>
 XcbConnection::Create() noexcept {
     // Setup connection
@@ -109,4 +109,4 @@ std::future<absl::Status> XcbConnection::SendKeystroke(
 
     return keyboard.SendKeystrokes(keystroke, root);
 }
-}  // namespace actions::internal::linux
+}  // namespace actions::internal::x11

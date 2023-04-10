@@ -7,14 +7,14 @@
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 
-#if defined(__linux__)
-#include "actions/internal/linux/keystroke.h"
+#if defined(__x11__)
+#include "actions/internal/x11/keystroke.h"
 #endif
 
 namespace actions::action {
 
-#if defined(__linux__)
-using internal::linux::Key;
+#if defined(__x11__)
+using internal::x11::Key;
 #else
 using Key = unsigned int;
 #endif

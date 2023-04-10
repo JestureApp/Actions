@@ -1,5 +1,5 @@
-#ifndef ACTIONS_INTERNAL_LINUX_XCB_KEYBOARD_H
-#define ACTIONS_INTERNAL_LINUX_XCB_KEYBOARD_H
+#ifndef ACTIONS_INTERNAL_X11_XCB_KEYBOARD_H
+#define ACTIONS_INTERNAL_X11_XCB_KEYBOARD_H
 
 #include <xcb/xcb.h>
 #include <xcb/xcb_keysyms.h>
@@ -12,7 +12,7 @@
 #include "absl/status/statusor.h"
 #include "actions/action/keystroke.h"
 
-namespace actions::internal::linux {
+namespace actions::internal::x11 {
 
 class XcbKeyboard {
    private:
@@ -39,6 +39,6 @@ class XcbKeyboard {
                                              xcb_window_t root) noexcept;
 };
 
-}  // namespace actions::internal::linux
+}  // namespace actions::internal::x11
 
-#endif  // ACTIONS_INTERNAL_LINUX_XCB_KEYBOARD_H
+#endif  // ACTIONS_INTERNAL_X11_XCB_KEYBOARD_H

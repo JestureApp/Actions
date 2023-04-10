@@ -1,4 +1,4 @@
-#include "actions/internal/linux/xcb_keyboard.h"
+#include "actions/internal/x11/xcb_keyboard.h"
 
 #include <xcb/xcb.h>
 #include <xcb/xcb_keysyms.h>
@@ -11,10 +11,10 @@
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "actions/action/keystroke.h"
-#include "actions/internal/linux/xcb_error.h"
 #include "actions/internal/util.h"
+#include "actions/internal/x11/xcb_error.h"
 
-namespace actions::internal::linux {
+namespace actions::internal::x11 {
 
 XcbKeyboard::XcbKeyboard(xcb_connection_t* conn) noexcept
     : conn(conn), key_symbols(xcb_key_symbols_alloc(conn)) {}
@@ -93,4 +93,4 @@ std::future<absl::Status> XcbKeyboard::SendFakeInput(
     });
 }
 
-}  // namespace actions::internal::linux
+}  // namespace actions::internal::x11
