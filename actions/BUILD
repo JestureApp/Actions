@@ -5,6 +5,7 @@ cc_library(
     hdrs = ["action.h"],
     deps = [
         "//actions/action:keystroke",
+        "//actions/action:mouse",
         "//actions/action:target",
         "@com_google_absl//absl/types:variant",
     ],
@@ -14,6 +15,10 @@ cc_library(
     name = "actions",
     srcs = ["actions.cc"],
     hdrs = ["actions.h"],
+    copts = select({
+        "@display//:x11": ["-D __x11__"],
+        "//conditions:default": [],
+    }),
     deps = [
         ":action",
         "//actions/internal:connection",
@@ -21,7 +26,7 @@ cc_library(
         "@com_google_absl//absl/status",
         "@com_google_absl//absl/status:statusor",
     ] + select({
-        "@platforms//os:linux": ["//actions/internal/linux:xcb_connection"],
+        "@display//:x11": ["//actions/internal/x11:xcb_connection"],
         "//conditions:default": ["//actions/internal/stub:stub_connection"],
     }),
 )

@@ -1,10 +1,10 @@
-#include "actions/internal/linux/xcb_error.h"
+#include "actions/internal/x11/xcb_error.h"
 
 #include <xcb/xcb.h>
 
 #include "absl/status/status.h"
 
-namespace actions::internal::linux {
+namespace actions::internal::x11 {
 absl::Status XcbStatus(int code) noexcept {
     switch (code) {
         case 0:
@@ -58,4 +58,4 @@ absl::Status XcbErrorToStatus(xcb_connection_t *conn,
                               std::to_string(error->major_code) + "." +
                               std::to_string(error->minor_code));
 }
-}  // namespace actions::internal::linux
+}  // namespace actions::internal::x11

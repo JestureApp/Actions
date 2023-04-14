@@ -12,8 +12,44 @@ StubConnection::Create() noexcept {
     return std::make_unique<StubConnection>();
 }
 
-std::future<absl::Status> StubConnection::SendKeystroke(
+std::future<absl::Status> StubConnection::Keystroke(
     const action::Keystroke& keystroke, const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
+std::future<absl::Status> StubConnection::KeysPress(
+    const action::KeysPress& keys_press,
+    const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
+std::future<absl::Status> StubConnection::KeysRelease(
+    const action::KeysRelease& keys_release,
+    const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
+std::future<absl::Status> StubConnection::MoveCursor(
+    const action::CursorMove& cursor_move,
+    const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
+std::future<absl::Status> StubConnection::MousePress(
+    const action::MousePress& mouse_press,
+    const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
+std::future<absl::Status> StubConnection::MouseRelease(
+    const action::MouseRelease& mouse_release,
+    const action::Target& target) noexcept {
+    return util::Resolve(absl::OkStatus());
+}
+
+std::future<absl::Status> StubConnection::MouseClick(
+    const action::MouseClick& mouse_click,
+    const action::Target& target) noexcept {
     return util::Resolve(absl::OkStatus());
 }
 

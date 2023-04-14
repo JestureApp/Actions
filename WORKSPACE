@@ -39,6 +39,10 @@ load("//:repositories.bzl", "actions_repositories")
 
 actions_repositories()
 
-load("//:setup.bzl", "actions_setup")
+load("@actions//display:display_configure.bzl", "display_configure")
 
-actions_setup()
+display_configure()
+
+load("@display//:local_display.bzl", "display_repositories")
+
+display_repositories()

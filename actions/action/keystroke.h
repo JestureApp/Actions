@@ -7,25 +7,35 @@
 #include "absl/status/status.h"
 #include "absl/status/statusor.h"
 
-#if defined(__linux__)
-#include "actions/internal/linux/keystroke.h"
+#if defined(__x11__)
+#include "actions/internal/x11/keystroke.h"
 #endif
 
 namespace actions::action {
 
-#if defined(__linux__)
-using internal::linux::Key;
-using internal::linux::ParseKeystroke;
+#if defined(__x11__)
+using internal::x11::Key;
 #else
 using Key = unsigned int;
-absl::StatusOr<std::vector<Key> > ParseKeystroke(std::string) noexcept {
-    return std::vector<Key>();
-}
 #endif
+
+absl::StatusOr<std::vector<Key> > ParseKeystroke(std::string) noexcept;
 
 /// @brief Represents a keystroke. A collection of keys with associated
 /// modifiers.
-using Keystroke = std::vector<Key>;
+using KeySequence = std::vector<Key>;
+
+typedef struct Keystroke {
+    KeySequence sequence;
+} Keystroke;
+
+typedef struct KeysPress {
+    KeySequence sequence;
+} KeysPress;
+
+typedef struct KeysRelease {
+    KeySequence sequence;
+} KeysRelease;
 
 }  // namespace actions::action
 

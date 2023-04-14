@@ -3,12 +3,22 @@
 
 #include "absl/types/variant.h"
 #include "actions/action/keystroke.h"
+#include "actions/action/mouse.h"
 #include "actions/action/target.h"
 
 namespace actions {
 
-using Action = absl::variant<action::Keystroke>;
+namespace action {
 
-}
+typedef struct NoOp {
+} NoOp;
+}  // namespace action
+
+using Action =
+    absl::variant<action::Keystroke, action::KeysPress, action::KeysRelease,
+                  action::CursorMove, action::MouseClick, action::MousePress,
+                  action::MouseRelease, action::NoOp>;
+
+}  // namespace actions
 
 #endif  // ACTIONS_ACTION_H
