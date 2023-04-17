@@ -31,7 +31,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 http_archive(
     name = "actions",
     strip_prefix = "Actions-1.0.0",
-    url = "https://github.com/JestureApp/Actions/archive/refs/tags/v0.2.0.zip",
+    url = "https://github.com/JestureApp/Actions/archive/refs/tags/v1.0.0.zip",
 )
 
 load("//:repositories.bzl", "actions_repositories")
