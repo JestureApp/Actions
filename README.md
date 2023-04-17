@@ -34,7 +34,7 @@ http_archive(
     url = "https://github.com/JestureApp/Actions/archive/refs/tags/v1.0.0.zip",
 )
 
-load("//:repositories.bzl", "actions_repositories")
+load("@actions//:repositories.bzl", "actions_repositories")
 
 actions_repositories()
 
