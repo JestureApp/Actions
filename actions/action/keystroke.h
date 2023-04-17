@@ -19,6 +19,11 @@ using internal::x11::Key;
 using Key = unsigned int;
 #endif
 
+/// @brief Parses a string representing a keystroke. Must be of the form
+/// "KEY1 + KEY2 + ..."
+///
+/// @return A status or a keysequence. In the case of a failure an error status
+/// is returned.
 absl::StatusOr<std::vector<Key> > ParseKeystroke(std::string) noexcept;
 
 /// @brief Represents a keystroke. A collection of keys with associated

@@ -22,6 +22,12 @@ class Actions {
     static absl::StatusOr<Actions> Create(
         std::unique_ptr<internal::Connection> conn) noexcept;
 
+    /// @brief Creates a new actions instance. This will initiate a connection
+    /// with the display server and ensure it supports any necessary extensions.
+    /// This method blocks.
+    ///
+    /// @return A status or the instance. In the case of a failure an error
+    /// status is returned.
     static absl::StatusOr<Actions> Create() noexcept;
 
     Actions(Actions&) = delete;

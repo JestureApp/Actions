@@ -23,6 +23,10 @@ Currently Actions only supports linux systems using the X11 display server.
   pacman -S libx11
   ```
 
+# Bazel setup
+Include the following in your `WORKSPACE` file
+TODO
+
 # Examples
 
 ## Example: Sending Keystrokes to Applications
@@ -78,9 +82,6 @@ if (! status.ok()) {
     std::exit(1);
 }
 ```
-
-# Documentation
-Please refer to the [docs](docs/Index.md) for more information.
 
 # Contributing
 See [Contributing](Contributing.md) for instruction on contributing
