@@ -25,7 +25,27 @@ Currently Actions only supports linux systems using the X11 display server.
 
 # Bazel setup
 Include the following in your `WORKSPACE` file
-TODO
+```
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "actions",
+    strip_prefix = "Actions-1.0.0",
+    url = "https://github.com/JestureApp/Actions/archive/refs/tags/v0.2.0.zip",
+)
+
+load("//:repositories.bzl", "actions_repositories")
+
+actions_repositories()
+
+load("@actions//display:display_configure.bzl", "display_configure")
+
+display_configure()
+
+load("@display//:local_display.bzl", "display_repositories")
+
+display_repositories()
+```
 
 # Examples
 
